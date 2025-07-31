@@ -93,7 +93,6 @@ const Home = () => {
         </div>
           <p>Your one-stop solution for all your needs.</p>
         </div>
-=======
         <h1>Welcome to Our Website</h1>
         <p>This is the home page content.</p>
         {/* Add more content here as needed */}
