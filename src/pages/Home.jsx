@@ -8,7 +8,6 @@ const Home = () => {
       <Navbar />
       
       <div className="home-content">
-<<<<<<< HEAD
         <div className="hero-section">
           <div className="home-container">
       <section className="hero">
@@ -98,7 +97,7 @@ const Home = () => {
         <h1>Welcome to Our Website</h1>
         <p>This is the home page content.</p>
         {/* Add more content here as needed */}
->>>>>>> 68cf38aed747702a2b93ccf214e6ee3f568473aa
+
       </div>
       <Footer />
     </div>
