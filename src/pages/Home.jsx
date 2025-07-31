@@ -2,16 +2,14 @@ import Navbar from "../Components/Navbar";
 import React from "react";
 import "./Home.css"; // Assuming you have a CSS file for styling
 import Footer from"../Components/Footer"; // Importing Footer component if needed
-
 const Home = () => {
   return (
-    <div className="home">
+    <div className="home-container">
       <Navbar />
       <div className="home-content">
-        <div className="hero-section">
-          <h1>Welcome to My Company</h1>
-          <p>Your one-stop solution for all your needs.</p>
-        </div>
+        <h1>Welcome to Our Website</h1>
+        <p>This is the home page content.</p>
+        {/* Add more content here as needed */}
       </div>
       <Footer />
     </div>

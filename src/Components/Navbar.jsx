@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Navbar.css";
+import "./Footer.css";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -67,15 +68,74 @@ const Navbar = () => {
       <div className="navbar-container">
         <div className="navbar-logo">MyCompany</div>
         <ul className={`navbar-links ${isOpen ? "mobile open" : "mobile"}`}>
-          <li><a href="#home" onClick={closeAll}>Home</a></li>
-          <li><a href="#about" onClick={closeAll}>About</a></li>
-          <li><a href="#services" onClick={closeAll}>Services</a></li>
-          <li><a href="#contact" onClick={closeAll}>Contact</a></li>
+          <li className="dropdown">
+            <button className="dropbtn">
+              UPSC <span className="arrow">▼</span>
+            </button>
+            <div className="dropdown-content">
+              <a href="#upsc1" onClick={closeAll}>UPSC Option 1</a>
+              <a href="#upsc2" onClick={closeAll}>UPSC Option 2</a>
+            </div>
+          </li>
+          <li className="dropdown">
+            <button className="dropbtn">
+              TGPSC <span className="arrow">▼</span>
+            </button>
+            <div className="dropdown-content">
+              <a href="#tgpsc1" onClick={closeAll}>TGPSC Option 1</a>
+              <a href="#tgpsc2" onClick={closeAll}>TGPSC Option 2</a>
+            </div>
+          </li>
+          <li className="dropdown">
+            <button className="dropbtn">
+              APPSC <span className="arrow">▼</span>
+            </button>
+            <div className="dropdown-content">
+              <a href="#appsc1" onClick={closeAll}>APPSC Option 1</a>
+              <a href="#appsc2" onClick={closeAll}>APPSC Option 2</a>
+            </div>
+          </li>
+          <li className="dropdown">
+            <button className="dropbtn">
+              ExamOTT <span className="arrow">▼</span>
+            </button>
+            <div className="dropdown-content">
+              <a href="#examott1" onClick={closeAll}>ExamOTT Option 1</a>
+              <a href="#examott2" onClick={closeAll}>ExamOTT Option 2</a>
+            </div>
+          </li>
+          <li className="dropdown">
+            <button className="dropbtn">
+              More <span className="arrow">▼</span>
+            </button>
+            <div className="dropdown-content">
+              <a href="#more1" onClick={closeAll}>More Option 1</a>
+              <a href="#more2" onClick={closeAll}>More Option 2</a>
+            </div>
+          </li>
+          <li className="dropdown">
+            <button className="dropbtn">
+              About <span className="arrow">▼</span>
+            </button>
+            <div className="dropdown-content">
+              <a href="#about1" onClick={closeAll}>About Option 1</a>
+              <a href="#about2" onClick={closeAll}>About Option 2</a>
+            </div>
+          </li>
+          <li className="dropdown">
+            <button className="dropbtn">
+              Contact <span className="arrow">▼</span>
+            </button>
+            <div className="dropdown-content">
+              <a href="#contact1" onClick={closeAll}>Contact Option 1</a>
+              <a href="#contact2" onClick={closeAll}>Contact Option 2</a>
+            </div>
+          </li>
         </ul>
 
         <div className={`dropdown ${dropdownOpen ? "open" : ""}`}>
           <button className="dropbtn" onClick={toggleDropdown}>
-            Login
+            Login <span className="arrow">▼</span>
           </button>
           <div className="dropdown-content">
             <a href="#login1" onClick={closeAll}>Login 1</a>
@@ -95,3 +155,18 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+export const Footer = () => {
+  return (
+    <footer className="footer">
+      <div className="footer-content">
+        <p>&copy; {new Date().getFullYear()} Civic Centre. All rights reserved.</p>
+        <div className="footer-links">
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+          <a href="#privacy">Privacy Policy</a>
+        </div>
+      </div>
+    </footer>
+  );
+};

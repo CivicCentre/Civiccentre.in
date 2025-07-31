@@ -3,8 +3,8 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: #333;
-  color: #fff;
+  background: #ffffff;
+  color: #000000;
   position: fixed;
   width: 100%;
   top: 0;
@@ -37,11 +37,14 @@
 .navbar-links {
   display: flex;
   gap: 1.5rem;
-  list-style: none;
+  list-style:georgian;
+  margin: 0;
+  padding: 0;
+  flex-wrap: nowrap;
 }
 
 .navbar-links li a {
-  color: #fff;
+  color: #000000;
   text-decoration: none;
   font-size: 1rem;
   transition: color 0.3s;
@@ -162,6 +165,9 @@ body {
   position: relative;
   display: inline-block;
 }
+
+/* Removed duplicate dropdown-content styles */
+
 .dropdown-content {
   display: none;
   position: absolute;
@@ -248,4 +254,61 @@ body {
       transform: translateY(0);
     }
   }
+}
+
+
+/* Dropdown button styling */
+.dropbtn {
+  background: none;
+  border: none;
+  color: #000000;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: color 0.3s;
+}
+
+.dropbtn:hover {
+  color: #f0a500;
+}
+
+/* Arrow styling and rotation when open */
+.arrow {
+  font-size: 0.7rem;
+  transition: transform 0.3s ease;
+}
+.dropdown.open .arrow {
+  transform: rotate(180deg);
+}
+
+/* Desktop dropdown content styling */
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #ffffff;
+  min-width: 200px;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  display: none;
+  flex-direction: column;
+  z-index: 2000;
+}
+.dropdown:hover .dropdown-content {
+  display: flex;
+}
+.dropdown-content a {
+  color: #000000;
+  padding: 0.8rem 1rem;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.dropdown-content a:hover {
+  background: #f0a500;
+  color: #ffffff;
 }
