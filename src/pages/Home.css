@@ -1,9 +1,9 @@
 .home-content {
-  width: 85%;    
+  width: 100%;    
 }
 .hero-section {
   background: white;
-  padding: 1% 8rem;
+  padding: 1% 10.9rem;
   border-radius: 0px; 
   text-align: center;
   width: 100%; 
@@ -28,7 +28,7 @@
 
 html, body {
   width: 100%;
-  overflow-x: hidden;
+
 }
 body {
   margin: 0;
@@ -43,7 +43,6 @@ background: #f8fafc;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px;
   width: 100%;
 }
 
@@ -85,15 +84,7 @@ background: #f8fafc;
   background: #00bfff;
 }
 
-@media (max-width: 768px) {
-  .home-hero h1 {
-    font-size: 2rem;
-  }
 
-  .home-hero p {
-    font-size: 1rem;
-  }
-}
 
 .features-container {
   display: flex;
@@ -244,3 +235,84 @@ background: #f8fafc;
   gap: 15px;
 }
  
+@media (max-width: 768px) {
+  .home-container{
+    width: 90%;
+
+  }
+
+  .home-content {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+
+  .hero-section {
+    padding: 20px;
+  }
+  .hero-section img {
+    width: 100%;
+    max-width: 80%;
+  }
+  .features-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .features-container .feature-box {
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+  }
+  .free-sources-section {
+    padding: 10px;
+  }
+  .free-sources-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .free-sources-left {
+    flex-direction: column;
+    align-items: center;
+  }
+  .free-sources-right {
+    width: 100%;
+    margin-top: 20px;
+  }
+  .courses-section {
+    padding-right: 40px;
+    margin-top: 20px;
+    margin-left: 28px;
+    margin-bottom: 20px;
+    background-color: #ede7e7;
+    border: 3px solid #000;
+  }
+  .course-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .course-box {
+    padding: 15px;
+    font-size: 0.9rem;
+  }
+  .home-hero h1 {
+    font-size: 2rem;
+  }
+  .home-hero p {
+    font-size: 1rem;
+  }
+  .home-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .home-buttons a {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+  }
+  .navbar-links {
+    flex-direction: column;
+    align-items: center;
+  }
+}
