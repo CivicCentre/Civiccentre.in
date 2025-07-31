@@ -4,23 +4,29 @@ import "./Footer.css";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(null);
+  const [nestedOpen, setNestedOpen] = useState(null);
   const navbarRef = useRef(null);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
-    if (!isOpen) setDropdownOpen(false); // close dropdown when menu toggled
+    if (!isOpen) setDropdownOpen(null); // close dropdown when menu toggled
   };
 
-  const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+  const toggleDropdown = (id) => {
+    setDropdownOpen(dropdownOpen === id ? null : id);
+  };
+
+  const toggleNested = (id) => {
+    setNestedOpen(nestedOpen === id ? null : id);
   };
 
   const closeAll = () => {
     setIsOpen(false);
-    setDropdownOpen(false);
+    setDropdownOpen(null);
+    setNestedOpen(null);
   };
 
   useEffect(() => {
@@ -31,6 +37,17 @@ const Navbar = () => {
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setDropdownOpen(null);
+        setNestedOpen(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   // Swipe detection
@@ -68,49 +85,109 @@ const Navbar = () => {
       <div className="navbar-container">
         <div className="navbar-logo">MyCompany</div>
         <ul className={`navbar-links ${isOpen ? "mobile open" : "mobile"}`}>
-          <li className="dropdown">
-            <button className="dropbtn">
+          <li className={`dropdown ${dropdownOpen === 'upsc' ? 'open' : ''}`}>
+            <button className="dropbtn" onClick={() => toggleDropdown('upsc')}>
               UPSC <span className="arrow">▼</span>
             </button>
             <div className="dropdown-content">
-              <a href="#upsc1" onClick={closeAll}>UPSC Option 1</a>
-              <a href="#upsc2" onClick={closeAll}>UPSC Option 2</a>
+              <a href="#upsc1">UPSC Option 1</a>
+              <a href="#upsc2">UPSC Option 2</a>
+              <div
+                className={`nested-dropdown ${nestedOpen === 'upsc-more' ? 'open' : ''}`}
+                onClick={(e) => { e.stopPropagation(); toggleNested('upsc-more'); }}
+              >
+                <button className="dropbtn">
+                  More <span className="arrow">▼</span>
+                </button>
+                <div className="dropdown-content">
+                  <a href="#upsc-more1" onClick={() => setNestedOpen(null)}>More Option 1</a>
+                  <a href="#upsc-more2" onClick={() => setNestedOpen(null)}>More Option 2</a>  
+                </div>
+              </div>
             </div>
           </li>
-          <li className="dropdown">
-            <button className="dropbtn">
+          <li className={`dropdown ${dropdownOpen === 'tgpsc' ? 'open' : ''}`}>
+            <button className="dropbtn" onClick={() => toggleDropdown('tgpsc')}>
               TGPSC <span className="arrow">▼</span>
             </button>
             <div className="dropdown-content">
-              <a href="#tgpsc1" onClick={closeAll}>TGPSC Option 1</a>
-              <a href="#tgpsc2" onClick={closeAll}>TGPSC Option 2</a>
+              <a href="#tgpsc1">TGPSC Option 1</a>
+              <a href="#tgpsc2">TGPSC Option 2</a>
+              <div
+                className={`nested-dropdown ${nestedOpen === 'tgpsc-more' ? 'open' : ''}`}
+                onClick={(e) => { e.stopPropagation(); toggleNested('tgpsc-more'); }}
+              >
+                <button className="dropbtn">
+                  More <span className="arrow">▼</span>
+                </button>
+                <div className="dropdown-content">
+                  <a href="#tgpsc-more1" onClick={() => setNestedOpen(null)}>More Option 1</a>
+                  <a href="#tgpsc-more2" onClick={() => setNestedOpen(null)}>More Option 2</a>  
+                </div>
+              </div>
             </div>
           </li>
-          <li className="dropdown">
-            <button className="dropbtn">
+          <li className={`dropdown ${dropdownOpen === 'appsc' ? 'open' : ''}`}>
+            <button className="dropbtn" onClick={() => toggleDropdown('appsc')}>
               APPSC <span className="arrow">▼</span>
             </button>
             <div className="dropdown-content">
-              <a href="#appsc1" onClick={closeAll}>APPSC Option 1</a>
-              <a href="#appsc2" onClick={closeAll}>APPSC Option 2</a>
+              <a href="/APPSC">APPSC Option 1</a>
+              <a href="#appsc2">APPSC Option 2</a>
+              <div
+                className={`nested-dropdown ${nestedOpen === 'appsc-more' ? 'open' : ''}`}
+                onClick={(e) => { e.stopPropagation(); toggleNested('appsc-more'); }}
+              >
+                <button className="dropbtn">
+                  More <span className="arrow">▼</span>
+                </button>
+                <div className="dropdown-content">
+                  <a href="#appsc-more1" onClick={() => setNestedOpen(null)}>More Option 1</a>
+                  <a href="#appsc-more2" onClick={() => setNestedOpen(null)}>More Option 2</a>  
+                </div>
+              </div>
             </div>
           </li>
-          <li className="dropdown">
-            <button className="dropbtn">
+          <li className={`dropdown ${dropdownOpen === 'examott' ? 'open' : ''}`}>
+            <button className="dropbtn" onClick={() => toggleDropdown('examott')}>
               ExamOTT <span className="arrow">▼</span>
             </button>
             <div className="dropdown-content">
-              <a href="#examott1" onClick={closeAll}>ExamOTT Option 1</a>
-              <a href="#examott2" onClick={closeAll}>ExamOTT Option 2</a>
+              <a href="#examott1">ExamOTT Option 1</a>
+              <a href="#examott2">ExamOTT Option 2</a>
+              <div
+                className={`nested-dropdown ${nestedOpen === 'examott-more' ? 'open' : ''}`}
+                onClick={(e) => { e.stopPropagation(); toggleNested('examott-more'); }}
+              >
+                <button className="dropbtn">
+                  More <span className="arrow">▼</span>
+                </button>
+                <div className="dropdown-content">
+                  <a href="#examott-more1" onClick={() => setNestedOpen(null)}>More Option 1</a>
+                  <a href="#examott-more2" onClick={() => setNestedOpen(null)}>More Option 2</a>  
+                </div>
+              </div>
             </div>
           </li>
-          <li className="dropdown">
-            <button className="dropbtn">
+          <li className={`dropdown ${dropdownOpen === 'more' ? 'open' : ''}`}>
+            <button className="dropbtn" onClick={() => toggleDropdown('more')}>
               More <span className="arrow">▼</span>
             </button>
             <div className="dropdown-content">
-              <a href="#more1" onClick={closeAll}>More Option 1</a>
-              <a href="#more2" onClick={closeAll}>More Option 2</a>
+              <a href="#more1">More Option 1</a>
+              <a href="#more2">More Option 2</a>
+              <div
+                className={`nested-dropdown ${nestedOpen === 'more-more' ? 'open' : ''}`}
+                onClick={(e) => { e.stopPropagation(); toggleNested('more-more'); }}
+              >
+                <button className="dropbtn">
+                  Submenu <span className="arrow">▼</span>
+                </button>
+                <div className="dropdown-content">
+                  <a href="#more-sub1" onClick={() => setNestedOpen(null)}>Sub Option 1</a>
+                  <a href="#more-sub2" onClick={() => setNestedOpen(null)}>Sub Option 2</a>  
+                </div>
+              </div>
             </div>
           </li>
           <li className="dropdown">
@@ -118,8 +195,8 @@ const Navbar = () => {
               About <span className="arrow">▼</span>
             </button>
             <div className="dropdown-content">
-              <a href="#about1" onClick={closeAll}>About Option 1</a>
-              <a href="#about2" onClick={closeAll}>About Option 2</a>
+              <a href="#about1">About Option 1</a>
+              <a href="#about2">About Option 2</a>
             </div>
           </li>
           <li className="dropdown">
@@ -127,19 +204,19 @@ const Navbar = () => {
               Contact <span className="arrow">▼</span>
             </button>
             <div className="dropdown-content">
-              <a href="#contact1" onClick={closeAll}>Contact Option 1</a>
-              <a href="#contact2" onClick={closeAll}>Contact Option 2</a>
+              <a href="#contact1">Contact Option 1</a>
+              <a href="#contact2">Contact Option 2</a>
             </div>
           </li>
         </ul>
 
-        <div className={`dropdown ${dropdownOpen ? "open" : ""}`}>
-          <button className="dropbtn" onClick={toggleDropdown}>
+        <div className={`dropdown ${dropdownOpen === "login" ? "open" : ""}`}>
+          <button className="dropbtn" onClick={() => toggleDropdown("login")}>
             Login <span className="arrow">▼</span>
           </button>
           <div className="dropdown-content">
-            <a href="#login1" onClick={closeAll}>Login 1</a>
-            <a href="#login2" onClick={closeAll}>Login 2</a>
+            <a href="#login1">Login 1</a>
+            <a href="#login2">Login 2</a>
           </div>
         </div>
 

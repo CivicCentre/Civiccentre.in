@@ -1,12 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import APPSC from './pages/APPSC/APPSC'
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* other routes like /dashboard will come later */}
+        <Route path="/appsc" element={<APPSC />} />
       </Routes>
     </Router>
   );
