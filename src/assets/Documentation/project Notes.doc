@@ -1,0 +1,39 @@
+
+
+
+Navbar Features Documentation
+=============================
+
+1. **Smooth Right-to-Left Opening Animation**
+   - The mobile navbar opens from right to left with a sliding animation.
+   - Provides a modern drawer-style experience.
+
+2. **Background Blur & Overlay**
+   - When the navbar opens, the background content is blurred.
+   - A semi-transparent overlay is added for focus and improved UX.
+
+3. **Working Dropdown on Mobile**
+   - Login button now toggles a dropdown menu with two options (Login 1, Login 2).
+   - Dropdown animates smoothly without breaking layout.
+
+4. **Tap Outside to Close**
+   - Any open menus or dropdowns will close when the user clicks/taps outside.
+
+5. **Swipe Gesture Support**
+   - Swipe right to open the navbar.
+   - Swipe left to close the navbar.
+   - Enhances mobile usability similar to native apps.
+
+6. **Swipe Hint Indicator**
+   - A subtle arrow indicator appears on mobile when the navbar is closed.
+   - Suggests to users that the navbar can be opened by swiping.
+   - Indicator automatically animates for better visibility.
+
+7. **General Improvements**
+   - Responsive design for desktop and mobile.
+   - Clean animations for dropdown and navbar transitions.
+   - User-friendly experience with clear navigation cues.
+
+End of Documentation - 28 July 2025
+
+
