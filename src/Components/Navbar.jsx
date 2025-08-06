@@ -66,7 +66,7 @@ const Navbar = () => {
   return (
     <nav className="navbar" ref={navbarRef}>
       <div className="navbar-container">
-        <div className="navbar-logo">MyCompany</div>
+        <div className="navbar-logo">Civic Centre IAS</div>
         <ul className={`navbar-links ${isOpen ? "mobile open" : "mobile"}`}>
           <li className="dropdown">
             <button className="dropbtn">
