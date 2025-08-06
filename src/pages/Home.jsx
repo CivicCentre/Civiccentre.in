@@ -252,7 +252,7 @@ export default function Home() {
   return (
     <div className="home-main-container">
       <Navbar />
-
+    <section className="base-home">
       {/* Hero Section with Slider */}
       <section className="hero-section">
         <div className="image-slider">
@@ -278,17 +278,17 @@ export default function Home() {
         </div>
       </section>
       {/* IAS Academy Box Navigation and Courses */}
-<section className="ias-academy-layout-section">
-  <div className="academy-navbar">
-    Free Sources
-  </div>
-  <div className="academy-courses-row">
-    <div className="academy-course-box">APPSC Latest IUpdates</div>
-    <div className="academy-course-box">TGPSC Latest Updates</div>
-    <div className="academy-course-box">Monthly Current Affairs</div>
-    <div className="academy-course-box">Latest Updates</div>
-  </div>
-</section>
+      <section className="ias-academy-layout-section">
+        <div className="academy-navbar">
+          Free Sources
+        </div>
+        <div className="academy-courses-row">
+          <div className="academy-course-box">APPSC Latest IUpdates</div>
+          <div className="academy-course-box">TGPSC Latest Updates</div>
+          <div className="academy-course-box">Monthly Current Affairs</div>
+          <div className="academy-course-box">Latest Updates</div>
+        </div>
+      </section>
 
 
       {/* Course Tabs Section */}
@@ -524,6 +524,7 @@ export default function Home() {
         isVisible={popupVisible}
       />
 
+    </section>
       <Footer />
     </div>
   );

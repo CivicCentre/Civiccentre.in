@@ -1,5 +1,23 @@
 /* src/Home.css */
 
+
+/* .base-home {
+  justify-content: center;
+} */
+
+@media (width >= 1601px) {
+  .base-home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 3600px; /* Set a maximum width for larger screens */
+  }
+}
+
 /* ===== GLOBAL RESET & VARIABLES ===== */
 :root {
   --primary: #042077; /* A standard, vibrant Blue */
