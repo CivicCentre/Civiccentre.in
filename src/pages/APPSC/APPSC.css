@@ -1,0 +1,36 @@
+.appsclogo-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 0;
+  background: radial-gradient(circle at center, #f0f0f0, #dcdcdc);
+  perspective: 1000px;
+  overflow: hidden;
+}
+
+.appsclogo-svg {
+  width: 80%;
+  height: auto;
+  opacity: 0.15;
+  transform: perspective(800px) rotateX(20deg) scale(1.4) rotate(var(--scroll-rotation, 0deg));
+  transition: transform 0.2s ease-out, opacity 0.8s ease-out;
+  pointer-events: none;
+  user-select: none;
+  will-change: transform;
+}
+
+.appsclogo-bg:hover .appsclogo-svg {
+  transform: perspective(800px) rotateX(10deg) scale(1.45);
+  opacity: 0.2;
+}
+
+.appsclogo-content {
+  position: relative;
+  z-index: 1;
+  padding: 2rem;
+}
