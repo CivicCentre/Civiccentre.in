@@ -18,8 +18,9 @@
         fill: #fb946e;
       }
 
-      .cls-5 {
-        fill: #f5faf5;
+      .cls-5,
+      .cls-8 {
+        fill: none;
       }
 
       .cls-6 {
@@ -30,9 +31,6 @@
         fill: #fccdb8;
       }
 
-      .cls-8 {
-        fill: #fdfefd;
-      }
 
       .cls-9 {
         fill: #b5cfbb;

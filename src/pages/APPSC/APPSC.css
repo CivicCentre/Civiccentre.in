@@ -1,4 +1,34 @@
-.appsclogo-bg {
+.course-page {
+  position: relative;
+  top: 0;
+  left: 0;
+  margin: 0 ;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100%;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  padding-top: 10px; /* space for fixed navbar */
+}
+
+/* Reusable container class for layout */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.course-hero {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center; /* center horizontally */
+  align-items: center;     /* center vertically */
+  overflow: visible;
+}
+
+.course-hero-bg {
   position: fixed;
   top: 0;
   left: 0;
@@ -17,20 +47,1026 @@
   width: 80%;
   height: auto;
   opacity: 0.15;
-  transform: perspective(800px) rotateX(20deg) scale(1.4) rotate(var(--scroll-rotation, 0deg));
+  transform: perspective(10000px) rotateX(10deg) rotate(var(--scroll-rotation, 0deg));
   transition: transform 0.2s ease-out, opacity 0.8s ease-out;
   pointer-events: none;
   user-select: none;
   will-change: transform;
 }
 
-.appsclogo-bg:hover .appsclogo-svg {
+.course-hero-bg:hover .appsclogo-svg {
   transform: perspective(800px) rotateX(10deg) scale(1.45);
   opacity: 0.2;
 }
 
-.appsclogo-content {
+.course-hero-content {
+  position: relative;
+  z-index: 998;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  color: #333;
+  gap: 4rem;
+  text-align: center;
+}
+
+.course-header-details {
+  flex: none;
+  text-align: center;
+}
+
+.course-header-details h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  color: #222;
+}
+
+.course-subtitle {
+  font-size: 1.25rem;
+  margin-top: 0.5rem;
+  color: #555;
+  text-align: left;
+
+}
+
+.course-dates {
+  font-size: 1rem;
+  color: #777;
+  margin-top: 0.5rem;
+    text-align: left;
+}
+
+
+.enroll-btn {
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: #1b9a2a;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.enroll-btn:hover {
+  background-color: #158217;
+}
+
+.course-hero-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center; /* centers content both horizontally and vertically */
+}
+
+
+
+/* Course Details Tabs */
+.course-details-tabs {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+.tab-list {
+  display: flex;
+  gap: 1rem;
+  border-bottom: 2px solid #e0e0e0;
+}
+.tab {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.2s;
+}
+.tab:hover {
+  color: #222;
+}
+.tab.active {
+  color: #1b9a2a;
+  border-bottom: 2px solid #1b9a2a;
+}
+.tab-content {
+  padding: 2rem 1rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-top: 1rem;
+  min-width: 300px;
+  display: block;
+}
+.tab-pane {
+  animation: fadeIn 0.3s ease;
+}
+/* Enhanced Tabs Section for Responsiveness and Layout */
+.tabs-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.tabs-wrapper {
+  position: absolute;
+    width: 52%;
+    left: 10%;
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+    justify-content: left;
+    overflow-x: auto;
+    padding: 1rem 0;
+}
+
+.tabs button {
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  color: #666;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.tabs button:hover {
+  color: #222;
+}
+
+.tabs button.active {
+  color: #1b9a2a;
+  border-color: #1b9a2a;
+}
+
+.tab-panel {
+  padding: 1.5rem 0;
+  color: #333;
+  line-height: 1.6;
+}
+.tabs-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 1rem;
+  z-index: 999;
+}
+.tabs {
+    display: flex;
+    justify-content: center;
+    z-index: 999;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+
+/* Floating Course Card Styles */
+.floating-course-card {
+  position: fixed;
+  top: 25%;
+  right: 12%;
+  width: 380px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  z-index: 2000;
+  padding: 1.5rem;
+}
+
+.floating-course-card .course-info {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.floating-course-card .course-info h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.floating-course-card .course-info p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.floating-course-card .course-info strong {
+  color: #1b9a2a;
+}
+
+
+/* Floating course card: smooth hide when Orientation section appears */
+.floating-course-card {
+  transition: transform 300ms ease, opacity 300ms ease;
+}
+.floating-course-card.exit {
+  transform: translateY(-150%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Place Masters section below the tabs and align it with the tabs' width */
+.masters-section {
+  width: 50%;
+  margin-left: 10.7%;  /* Align with tabs-wrapper's left offset */
+  margin-top: 16rem;  /* Space below the tabs */
+  margin-bottom: 2rem;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2rem;
+  position: relative; /* Remove absolute positioning */
+  z-index: auto;      /* Remove z-index override */
+}
+
+.masters-section h2 {
+  font-size: 2rem;
+  color: #222;
+  margin-bottom: 1rem;
+}
+.masters-section p {
+  font-size: 1.1rem;
+  color: #555;
+  max-width: 800px;
+}
+.masters-section .masters-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.masters-section .master-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+  width: calc(33.333% - 1rem);
+  min-width: 250px;
+  text-align: center;
+}
+.masters-section .master-card h3 {
+  font-size: 1.25rem;
+  color: #222;
+  margin-bottom: 0.5rem;
+}
+.masters-section .master-card p {
+  font-size: 0.95rem;
+  color: #555;
+  margin: 0.25rem 0;
+}
+.masters-section .master-card strong {
+  color: #1b9a2a;
+}
+.masters-section .master-card a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #1b9a2a;
+  color: #ffffff;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+.masters-section .master-card a:hover {
+  background-color: #158217;
+}
+
+
+.masters-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Carousel wrapper */
+.masters-carousel {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Horizontal scrolling with snap */
+.carousel-viewport {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.carousel-track {
+  display: flex;
+  gap: 1rem;
+  padding: 0 3rem; /* room for arrows */
+}
+
+/* Slides */
+.carousel-slide {
+  flex: 0 0 80%;
+  scroll-snap-align: center;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #f7f7f7;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+@media (min-width: 768px) { .carousel-slide { flex-basis: 60%; } }
+@media (min-width: 1024px) { .carousel-slide { flex-basis: 40%; } }
+
+.carousel-image {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Caption overlay */
+.carousel-caption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(transparent, rgba(0,0,0,0.65));
+  color: #fff;
+}
+.carousel-caption h3 { margin: 0 0 0.25rem; font-size: 1.125rem; }
+.carousel-caption p { margin: 0; font-size: 0.95rem; opacity: 0.9; }
+
+/* Arrow buttons */
+.carousel-btn {
+  position: absolute;
+  top: 92%;
+  z-index: 2;
+}
+.carousel-btn.prev { left: 0.5rem; }
+.carousel-btn.next { right: 0.5rem; }
+
+/* Dots */
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.carousel-dots .dot {
+  width: 8px; height: 8px;
+  border-radius: 999px;
+  border: none;
+  background: #c7c7c7;
+  cursor: pointer;
+}
+.carousel-dots .dot.active { background: #333; }
+
+.orientation-section {
+  padding: 2rem 1rem;
+  background: #f9f9f9;
+  width: 70%;
+  margin: 2rem auto; /* ensure space above and below */
+}
+
+.orientation-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.orientation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.video-card {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.video-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.thumb-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+.video-thumb {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.play-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 50%;
+}
+
+.video-meta {
+  padding: 1rem;
+}
+
+.video-title {
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.video-cta {
+  font-size: 0.85rem;
+  color: #007bff;
+}
+
+.orientation-carousel {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.orientation-viewport {
+  overflow: hidden;
+}
+
+.orientation-track {
+  display: flex;
+  gap: 1rem;
+  padding: 0.25rem;
+  scroll-behavior: smooth;
+}
+
+.orientation-slide {
+  min-width: clamp(260px, 28vw, 360px);
+  flex: 0 0 auto;
+}
+
+.orientation-slide.active .video-card {
+  outline: 2px solid rgba(0,0,0,0.08);
+}
+
+/* Arrow buttons and dots for orientation carousel */
+.orientation-carousel .carousel-btn.prev,
+.orientation-carousel .carousel-btn.next {
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 100%;
+  border: none;
+  background: transparent;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.orientation-carousel .carousel-dots {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.orientation-carousel .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #d0d0d0;
+  border: none;
+  cursor: pointer;
+}
+
+.orientation-carousel .dot.active {
+  background: #333;
+}
+
+@media (max-width: 768px) {
+  .orientation-slide {
+    min-width: 82vw;
+  }
+}
+/* Latest Updates Section */
+.latest-updates-section {
+  padding: 2rem 1rem;
+  background: #ffffff;
+  width: 70%;
+  margin: 2rem auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   position: relative;
   z-index: 1;
-  padding: 2rem;
+}
+
+.latest-updates-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #222;
+}
+
+.latest-updates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.update-item {
+  border-left: 4px solid #1b9a2a;
+  padding-left: 1rem;
+}
+
+.update-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 0;
+  color: #1b9a2a;
+}
+
+.update-date {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 0.25rem;
+}
+
+.update-description {
+  font-size: 1rem;
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .latest-updates-section {
+    width: 90%;
+    padding: 1.5rem 1rem;
+  }
+}
+
+/* === Latest Updates Continuous Ticker (news-style scroller) === */
+/* Container keeps the ticker clipped */
+.latest-updates-section { overflow: hidden; }
+
+/* Variant A */
+.ticker-wrapper { 
+  overflow: hidden; 
+  position: absolute; 
+}
+.ticker { 
+  width: 100%; 
+  overflow: hidden; 
+}
+.ticker-track { 
+  display: flex; 
+  align-items: center;
+  gap: 2rem; 
+  white-space: nowrap; 
+  will-change: transform; 
+  animation: ticker-marquee 28s linear infinite; 
+}
+.ticker-item { 
+  display: inline-flex; 
+  align-items: center; 
+  padding: 0.4rem 0.8rem; 
+  background: transparent; 
+  border-right: 1px solid rgba(0,0,0,0.08); 
+}
+.ticker-item strong { margin-right: 0.5rem; }
+
+/* Variant B (double-underscore naming) */
+.ticker__track { 
+  display: flex; 
+  gap: 2rem; 
+  white-space: nowrap; 
+  will-change: transform; 
+  animation: ticker-marquee 28s linear infinite; 
+}
+.ticker__item { 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 0.5rem; 
+  padding: 0.25rem 0.5rem; 
+}
+
+/* Pause on hover/focus for accessibility */
+.ticker-wrapper:hover .ticker-track,
+.ticker-wrapper:focus-within .ticker-track,
+.ticker:hover .ticker__track,
+.ticker:focus-within .ticker__track {
+  animation-play-state: paused;
+}
+
+@keyframes ticker-marquee { 
+  from { transform: translateX(0); } 
+  to   { transform: translateX(-50%); } 
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) { 
+  .ticker-track, .ticker__track { animation: none; } 
+}
+/* === Floating Course Card Image === */
+.course-enroll-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.course-image {
+  width: 100%;
+  aspect-ratio: 4 / 3; /* Maintain 400x300 ratio */
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f2f2f2;
+}
+.course-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Fill the area without distortion */
+  display: block;
+}
+
+/* === FAQs Section === */
+.faqs-section {
+  width: 70%;
+  margin-left: 15%;
+  padding-bottom: 10%;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  position: absolute;
+  z-index: 999;
+}
+.faqs-title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.25rem;
+}
+.faqs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.faq-item {
+  display: block;                /* ensure it renders as a block */
+  background: #fff;              /* solid backdrop */
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.faqs-list .faq-item + .faq-item { margin-top: 0.75rem; }
+.faq-question {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1rem;
+  cursor: pointer;
+  list-style: none;
+  color: #222;
+  background: #fff;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.faq-question::-webkit-details-marker { display: none; }
+.faq-icon {
+  font-weight: 700;
+  transition: transform 0.2s ease;
+}
+.faq-item[open] .faq-icon { transform: rotate(45deg); }
+.faq-answer {
+  display: block;
+  padding: 0 1rem 1rem 1rem;
+  color: #555;
+  background: #fff;
+  line-height: 1.6;
+}
+@media (max-width: 768px) {
+  .faqs-section { width: 90%; }
+}
+
+/* === Floating Chatbot === */
+.chatbot-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: #1b9a2a;
+  color: #fff;
+  font-size: 24px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+  cursor: pointer;
+  z-index: 1000; /* above other floating elements */
+}
+.chatbot-fab:hover { filter: brightness(1.05); }
+.chatbot-fab:focus { outline: 3px solid rgba(27,154,42,0.35); outline-offset: 2px; }
+
+.chatbot-panel {
+  position: fixed;
+  right: 20px;
+  bottom: 86px; /* sits above the fab */
+  width: min(360px, 90vw);
+  max-height: min(60vh, 560px);
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+.chatbot-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0.9rem;
+  background: #1b9a2a;
+  color: #fff;
+}
+.chatbot-close {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+.chatbot-body {
+  padding: 0.75rem 0.9rem;
+  overflow: auto;
+  flex: 1 1 auto;
+  background: #fafafa;
+}
+.chatbot-message.bot {
+  background: #e8f7ea;
+  color: #17481f;
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  max-width: 85%;
+}
+.chatbot-input {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  background: #fff;
+}
+.chatbot-input input {
+  flex: 1 1 auto;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 8px;
+  padding: 0.5rem 0.6rem;
+}
+.chatbot-send {
+  border: none;
+  border-radius: 8px;
+  background: #1b9a2a;
+  color: #fff;
+  padding: 0.5rem 0.9rem;
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {
+  .chatbot-panel { width: 92vw; right: 4vw; }
+  .chatbot-fab { right: 16px; bottom: 16px; }
+}
+
+@media (width <= 768px) {
+    .floating-course-card {
+        position: fixed;
+        top: 20%;
+        right: 5%;
+        width: 90%;
+        max-width: 400px;
+        left: 5%;
+    }
+    .masters-section {
+        width: 90%;
+        margin-left: 5%;
+        margin-top: 20rem; /* Adjusted for smaller screens */
+    }
+    .tabs-wrapper {
+        width: 100%;
+        left: 0;
+        padding: 1rem;
+    }
+    .tabs {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .tabs button {
+        flex: 1 1 auto;
+        text-align: center;
+        padding: 0.75rem 0.5rem;
+    }
+    .course-hero-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .course-header-details {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    .course-hero-bg {
+        background: radial-gradient(circle at center, #f0f0f0, #dcdcdc);
+        transform: perspective(10000px) rotateX(10deg) rotate(var(--scroll-rotation, 0deg));
+    }
+    .course-hero-bg:hover .appsclogo-svg {
+        transform: perspective(800px) rotateX(10deg) scale(1.45);
+        opacity: 0.2;
+    }
+    .course-hero-bg .appsclogo-svg {
+        width: 100%;
+        height: auto;
+        opacity: 0.15;
+        transform: perspective(10000px) rotateX(10deg) rotate(var(--scroll-rotation, 0deg));
+        transition: transform 0.2s ease-out, opacity 0.8s ease-out;
+    }
+    .course-hero-bg .appsclogo-svg:hover {
+        transform: perspective(800px) rotateX(10deg) scale(1.45);
+        opacity: 0.2;
+    }
+    .masters-section h2 {
+        font-size: 1.8rem;
+    }
+    .masters-section p {
+        font-size: 1rem;
+    }
+    .masters-section .masters-list {
+        flex-direction: column;
+        align-items: center;
+    }
+    .masters-section .master-card {
+        width: 100%;
+        max-width: 350px;
+    }
+    .masters-carousel {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .masters-carousel .carousel-track {
+        padding: 0 1rem; /* Adjust padding for smaller screens */
+    }
+    .masters-carousel .carousel-slide {
+        flex: 0 0 90%; /* Adjust slide width for smaller screens */
+    }
+    .masters-carousel .carousel-image {
+        height: 200px; /* Adjust image height for smaller screens */
+    }
+    .orientation-section {
+        width: 90%;
+        margin-left: 5%;
+        padding: 1.5rem;
+    }
+    .orientation-section .orientation-title {
+        font-size: 1.6rem;
+    }
+    .orientation-section .orientation-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    .orientation-carousel {
+        grid-template-columns: auto 1fr auto;
+        gap: 0.5rem;
+    }
+    .orientation-carousel .orientation-track {
+        padding: 0.25rem;
+    }
+    .orientation-carousel .orientation-slide {
+        min-width: 80vw; /* Adjust slide width for smaller screens */
+    }
+    .orientation-carousel .carousel-btn {
+        width: 36px; /* Smaller button size */
+        height: 36px;
+        font-size: 1.5rem; /* Smaller icon size */
+    }
+    .orientation-carousel .carousel-dots {
+        margin-top: 0.5rem;
+    }
+    .orientation-carousel .dot {
+        width: 6px;
+        height: 6px;
+    }
+    .latest-updates-section {
+        width: 90%;
+        margin-left: 5%;
+        padding: 1.5rem;
+    }
+    .latest-updates-section .latest-updates-title {
+        font-size: 1.6rem;
+    }
+    .latest-updates-section .latest-updates-list {
+        flex-direction: column;
+        align-items: center;
+    }
+    .latest-updates-section .update-item {
+        border-left: 3px solid #1b9a2a;
+    }
+    .latest-updates-section .update-title {
+        font-size: 1.1rem;
+    }
+    .latest-updates-section .update-description {
+        font-size: 0.95rem;
+    }
+    .faqs-section {
+        width: 90%;
+        margin-left: 5%;
+        padding: 1.5rem;
+    }
+    .faqs-section .faqs-title {
+        font-size: 1.6rem;
+    }
+    .faqs-section .faqs-list {
+        flex-direction: column;
+        align-items: center;
+    }
+    .faqs-section .faq-item {
+        width: 100%;
+        max-width: 400px;
+    }
+    .faqs-section .faq-question {
+        padding: 0.75rem 1rem;
+    }
+    .faqs-section .faq-answer {
+        padding: 0.75rem 1rem;
+    }
+    .chatbot-fab {
+        right: 16px;
+        bottom: 16px;
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+    }
+    .chatbot-panel {
+        right: 16px;
+        bottom: 72px; /* Adjusted to sit above the fab */
+        width: 90vw;
+        max-height: 70vh;
+    }
+    .chatbot-header {
+        padding: 0.75rem 0.9rem;
+        font-size: 1.2rem;
+    }
+    .chatbot-body {
+        padding: 0.75rem 0.9rem;
+        font-size: 0.95rem;
+    }
+    .chatbot-input {
+        padding: 0.6rem 0.9rem;
+    }
+    .chatbot-input input {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.95rem;
+    }
+    .chatbot-send {
+        padding: 0.5rem 0.9rem;
+        font-size: 0.95rem;
+    }
+    .course-hero-bg {
+        background: radial-gradient(circle at center, #f0f0f0, #dcdcdc);
+        transform: perspective(10000px) rotateX(10deg) rotate(var(--scroll-rotation, 0deg));
+    }
+    .course-hero-bg:hover .appsclogo-svg {
+        transform: perspective(800px) rotateX(10deg) scale(1.45);
+        opacity: 0.2;
+    }
+    .course-hero-bg .appsclogo-svg {
+        width: 100%;
+        height: auto;
+        opacity: 0.15;
+        transform: perspective(10000px) rotateX(10deg) rotate(var(--scroll-rotation, 0deg));
+        transition: transform 0.2s ease-out, opacity 0.8s ease-out;
+    }
+    .course-hero-bg .appsclogo-svg:hover { 
+        transform: perspective(800px) rotateX(10deg) scale(1.45);
+        opacity: 0.2;
+    }
 }

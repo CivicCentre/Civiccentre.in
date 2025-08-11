@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../../Components/Navbar";
 import Footer from "../../Components/Footer";
 import "./APPSC.css";
@@ -6,6 +6,60 @@ import appsclogoSVG from "../../assets/appsclogo.svg?raw";
 
 const APPSC = () => {
   const logoRef = useRef(null);
+  const heroRef = useRef(null);
+  const orientationRef = useRef(null);
+  // Tab state for course details
+  const [activeTab, setActiveTab] = useState("overview");
+  const [floatExit, setFloatExit] = useState(false);
+  // Chatbot panel state
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatText, setChatText] = useState("");
+  // WATI widget config (set real values in .env.local)
+  const WATI_NUMBER = import.meta.env.VITE_WATI_NUMBER || "917013495019"; 
+  const WATI_WIDGET_SRC = import.meta.env.VITE_WATI_WIDGET_SRC || "";     
+
+  // Orientation sessions (YouTube thumbnails)
+  const orientationVideos = [
+    { id: 'wJgtqzBRgPY', title: 'Orientation Session 1' },
+    { id: 'wJgtqzBRgPY', title: 'Orientation Session 2' },
+    { id: 'wJgtqzBRgPY', title: 'Orientation Session 3' },
+    { id: 'wJgtqzBRgPY', title: 'Orientation Session 4' },
+    { id: 'wJgtqzBRgPY', title: 'Orientation Session 5' },
+    { id: 'wJgtqzBRgPY', title: 'Orientation Session 6' },
+    { id: 'wJgtqzBRgPY', title: 'Orientation Session 7' },
+    { id: 'wJgtqzBRgPY', title: 'Orientation Session 8' },
+  ];
+
+  // Latest updates (edit these items as needed)
+  const updates = [
+    { title: 'APPSC Group I notification out', date: '11 Aug 2025' },
+    { title: 'New orientation session uploaded', date: '10 Aug 2025' },
+    { title: 'Syllabus PDF updated', date: '08 Aug 2025' },
+  ];
+
+  // FAQs (edit as needed)
+  const faqs = [
+    { q: 'What is the course duration?', a: 'The APPSC program typically runs for X months with weekly schedules.' },
+    { q: 'Do I get recorded sessions?', a: 'Yes, all live classes are recorded and made available within 24 hours.' },
+    { q: 'Is there a refund policy?', a: 'Yes, refunds are available within the first 7 days as per our policy.' },
+    { q: 'How do I access study materials?', a: 'Materials are available in the portal under the Material tab after enrollment.' },
+  ];
+
+  // Masters carousel state & data
+  const masters = [
+    { name: 'Master 1', title: 'Polity & Governance', photo: 'https://placehold.co/640x360?text=Master+1' },
+    { name: 'Master 2', title: 'History & Culture', photo: 'https://placehold.co/640x360?text=Master+2' },
+    { name: 'Master 3', title: 'Economy', photo: 'https://placehold.co/640x360?text=Master+3' },
+    { name: 'Master 4', title: 'Geography', photo: 'https://placehold.co/640x360?text=Master+4' },
+  ];
+  const [masterIndex, setMasterIndex] = useState(0);
+  const slideRefs = useRef([]);
+
+  // Orientation carousel state & refs
+  const [orientIndex, setOrientIndex] = useState(0);
+  const orientSlideRefs = useRef([]);
+  const orientViewportRef = useRef(null);
+
   useEffect(() => {
     const handleScroll = () => {
       const rotation = window.scrollY * 0.1; // adjust rotation speed
@@ -15,19 +69,21 @@ const APPSC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // (removed previous anime useEffect for <object>)
-
-  // Animate SVG parts on scroll
+  // Animate SVG parts on scroll (with proper cleanup)
   useEffect(() => {
     if (!logoRef.current) return;
-    import('animejs').then((mod) => {
+    let onScroll;
+    let disposed = false;
+
+    (async () => {
+      const mod = await import('animejs');
       const animeFn = mod.default ?? mod.anime;
-      if (typeof animeFn !== 'function') return;
-      const svgEl = logoRef.current.querySelector('svg');
+      if (typeof animeFn !== 'function' || disposed) return;
+
+      const svgEl = logoRef.current?.querySelector('svg');
       if (!svgEl) return;
-      // Split into parts (all paths)
+
       const parts = Array.from(svgEl.querySelectorAll('path'));
-      // Create a paused timeline: parts start scattered off-screen then assemble
       const tl = animeFn.timeline({ autoplay: false })
         .add({
           targets: parts,
@@ -47,7 +103,6 @@ const APPSC = () => {
           offset: 0,
         });
 
-      // Animate inner circle words one by one
       const words = Array.from(svgEl.querySelectorAll('text'));
       tl.add({
         targets: words,
@@ -58,7 +113,6 @@ const APPSC = () => {
         delay: (_, i) => i * 200,
       });
 
-      // Animate the pillar rising into position
       const pillarEl = svgEl.querySelector('#pillar') || svgEl.querySelector('.pillar');
       if (pillarEl) {
         tl.add({
@@ -66,159 +120,444 @@ const APPSC = () => {
           translateY: [100, 0],
           easing: 'easeOutBounce',
           duration: 1000,
-        }, '-=400'); // overlap with previous by 400ms
+        }, '-=400');
       }
 
-      // Sync timeline progress to scroll
-      const onScroll = () => {
+      onScroll = () => {
         const scrollPos = window.scrollY;
         const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
         const progress = Math.min(Math.max(scrollPos / maxScroll, 0), 1);
         tl.seek(tl.duration * progress);
       };
       window.addEventListener('scroll', onScroll);
-      return () => window.removeEventListener('scroll', onScroll);
-    });
+    })();
+
+    return () => {
+      disposed = true;
+      if (onScroll) window.removeEventListener('scroll', onScroll);
+    };
   }, []);
+
+  // Hide/fly out the floating course card when Orientation section is in view
+  useEffect(() => {
+    const target = orientationRef.current;
+    if (!target) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setFloatExit(entry.isIntersecting);
+      },
+      { root: null, threshold: 0.1 }
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
+  // Keep active master slide centered on change
+  useEffect(() => {
+    const el = slideRefs.current[masterIndex];
+    if (el && typeof el.scrollIntoView === 'function') {
+      el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }, [masterIndex]);
+  // Keep active orientation slide centered on change
+  useEffect(() => {
+    const el = orientSlideRefs.current[orientIndex];
+    if (el && typeof el.scrollIntoView === 'function') {
+      el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }, [orientIndex]);
+  // Removed sticky card scroll effect
+
+  // Load WATI widget script if provided (with options)
+  useEffect(() => {
+    if (!WATI_WIDGET_SRC) return;
+
+    const s = document.createElement('script');
+    s.src = WATI_WIDGET_SRC;
+    s.async = true;
+    s.defer = true;
+
+    const options = {
+      enabled: true,
+      chatButtonSetting: {
+        backgroundColor: "#00e785",
+        ctaText: "Chat with us",
+        borderRadius: "25",
+        marginLeft: "0",
+        marginRight: "20",
+        marginBottom: "20",
+        ctaIconWATI: true,
+        position: "right",
+      },
+      brandSetting: {
+        brandName: "Civic Centre IAS Academy",
+        brandSubTitle: "undefined",
+        brandImg: "https://www.wati.io/wp-content/uploads/2023/04/Wati-logo.svg",
+        welcomeText: "Hi there!\nHow can I help you?",
+        messageText: "",
+        backgroundColor: "#00e785",
+        ctaText: "Chat with us",
+        borderRadius: "25",
+        autoShow: false,
+        phoneNumber: WATI_NUMBER,
+      },
+    };
+
+    s.onload = function () {
+      if (typeof window !== 'undefined' && typeof window.CreateWhatsappChatWidget === 'function') {
+        window.CreateWhatsappChatWidget(options);
+      }
+    };
+
+    document.body.appendChild(s);
+
+    return () => {
+      if (s && s.parentNode) s.parentNode.removeChild(s);
+    };
+  }, [WATI_WIDGET_SRC, WATI_NUMBER]);
+
+  // Open WATI widget if present, else fall back to wa.me link
+  const openWati = () => {
+    const launcher = document.querySelector('.wati-chat-bubble, #wh-widget-send-button, .wh-widget-send-button');
+    if (launcher && typeof launcher.click === 'function') {
+      launcher.click();
+      return;
+    }
+    const msg = chatText ? ` ${chatText}` : '';
+    const url = `https://wa.me/${WATI_NUMBER}?text=${encodeURIComponent('Hello! I came from the website.' + msg)}`;
+    window.open(url, '_blank');
+  };
+
+  // Send current chatbot text directly to WhatsApp (wa.me)
+  const sendToWhatsApp = () => {
+    const msg = (chatText || "").trim();
+    if (!msg) return; // don't send empty messages
+    const url = `https://wa.me/${WATI_NUMBER}?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+    setChatText("");
+  };
 
   return (
     <>
       <Navbar />
-      <div className="appsclogo-bg">
-        <div ref={logoRef} className="appsclogo-svg">
-          <div
-            className="appsclogo-svg-inner"
-            dangerouslySetInnerHTML={{ __html: appsclogoSVG }}
-          />
+      <div className={`floating-course-card ${floatExit ? 'exit' : ''}`}>
+        <div className="course-enroll-card">
+          <div className="course-image">
+            <img
+              src="https://placehold.co/400x300"
+              alt="APPSC Course"
+              width="400"
+              height="300"
+              className="course-card-image"
+              loading="lazy"
+            />
+          </div>
+          <div className="course-info">
+            <h3>Enroll in APPSC Group I</h3>
+            <p><strong>Start Date:</strong> DD MMM YYYY</p>
+            <p><strong>Duration:</strong> X Months</p>
+            <p><strong>Price:</strong> ₹X,XXX</p>
+          </div>
+          <button className="enroll-btn">Enroll Now</button>
         </div>
       </div>
-      <div className="content-container appsclogo-content" style={{ padding: "2rem" }}>
-        <h1>Andhra Pradesh Public Service Commission (APPSC)</h1>
-        <p>
-          Andhra Pradesh
-        </p>
-        <h2>Examinations Conducted</h2>
-        <ul>
-          <li>Group I Services Examination</li>
-        </ul>
-        <h2>Eligibility and Syllabus</h2>
-        <p>
-          Eligibility varies based on the post applied for. Generally, candidates
-          must hold a graduate degree and meet age criteria set by the commission.
-          The syllabus typically includes General Studies, Mental Ability, and
-          subject-specific papers.
-        </p>
-        <h2>Preparation Resources</h2>
-        <p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p>
-        <p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p>
-        <p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p>
-        <p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p>
-        <p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p>
-        <p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p>
-        <p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p>
-        <p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p>
-        <p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p><p>
-          Candidates are encouraged to follow official notifications on the APPSC
-          website, refer to recommended textbooks, practice previous papers, and
-          stay updated with current affairs.
-        </p>
+      <section className="course-page"> 
+      <section className="course-hero" ref={heroRef}>
+        <div className="course-hero-inner">
+          <div className="course-hero-bg">
+            <div ref={logoRef} className="appsclogo-svg">
+              <div
+                className="appsclogo-svg-inner"
+                dangerouslySetInnerHTML={{ __html: appsclogoSVG }}
+              />
+            </div>
+          </div>
+          <div className="course-hero-content">
+            <div className="course-header-details">
+              <h1>Andhra Pradesh Public Service Commission (APPSC)</h1>
+              <p className="course-subtitle">Your gateway to success in APPSC Group I</p>
+              <p className="course-dates">
+                <strong>Start Date:</strong> DD MMM YYYY &nbsp;|&nbsp; <strong>End Date:</strong> DD MMM YYYY
+              </p>
+            </div>
+            {/* Course card removed */}
+          </div>
+        </div>
+      </section>
+      <div className="tabs-wrapper">
+        <section className="tabs-section">
+          <div className="tabs">
+            <button
+              className={activeTab === "overview" ? "active" : ""}
+              onClick={() => setActiveTab("overview")}
+            >
+              About
+            </button>
+            <button
+              className={activeTab === "curriculum" ? "active" : ""}
+              onClick={() => setActiveTab("curriculum")}
+            >
+              Schedule
+            </button>
+            <button
+              className={activeTab === "instructors" ? "active" : ""}
+              onClick={() => setActiveTab("instructors")}
+            >
+              Material
+            </button>
+            <button
+              className={activeTab === "faqs" ? "active" : ""}
+              onClick={() => setActiveTab("faqs")}
+            >
+              FAQ's
+            </button>
+          </div>
+          <div className="tab-content">
+            {activeTab === "overview" && (
+              <div className="tab-panel">Overview content goes here.</div>
+            )}
+            {activeTab === "curriculum" && (
+              <div className="tab-panel">Curriculum content goes here.</div>
+            )}
+            {activeTab === "instructors" && (
+              <div className="tab-panel">Instructor details go here.</div>
+            )}
+            {activeTab === "faqs" && (
+              <div className="tab-panel">FAQs details go here.</div>
+            )}
+          </div>
+        </section>
       </div>
+      <section className="masters-section">
+        <h2 className="masters-title">Meet Your Masters</h2>
+        <div className="masters-carousel">
+          <button
+            className="carousel-btn prev"
+            aria-label="Previous"
+            onClick={() => setMasterIndex((i) => (i - 1 + masters.length) % masters.length)}
+          >
+            ‹
+          </button>
+
+          <div className="carousel-viewport">
+            <div className="carousel-track">
+              {masters.map((m, idx) => (
+                <div
+                  key={idx}
+                  className={`carousel-slide ${idx === masterIndex ? 'active' : ''}`}
+                  ref={(el) => (slideRefs.current[idx] = el)}
+                >
+                  <img src={m.photo} alt={m.name} className="carousel-image" />
+                  <div className="carousel-caption">
+                    <h3>{m.name}</h3>
+                    {m.title && <p>{m.title}</p>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="carousel-dots" role="tablist" aria-label="Master slides">
+            {masters.map((_, i) => (
+              <button
+                key={i}
+                className={`dot ${i === masterIndex ? 'active' : ''}`}
+                aria-label={`Go to slide ${i + 1}`}
+                aria-selected={i === masterIndex}
+                onClick={() => setMasterIndex(i)}
+              />
+            ))}
+          </div>
+
+          <button
+            className="carousel-btn next"
+            aria-label="Next"
+            onClick={() => setMasterIndex((i) => (i + 1) % masters.length)}
+          >
+            ›
+          </button>
+        </div>
+      </section>
+      <section className="orientation-section" ref={orientationRef}>
+        <h2 className="orientation-title">Orientation Sessions</h2>
+        {orientationVideos.length > 3 ? (
+          <div className="orientation-carousel">
+            <button
+              className="carousel-btn prev"
+              aria-label="Previous orientation video"
+              onClick={() => setOrientIndex((i) => (i - 1 + orientationVideos.length) % orientationVideos.length)}
+            >
+              ‹
+            </button>
+
+            <div className="orientation-viewport" ref={orientViewportRef}>
+              <div className="orientation-track">
+                {orientationVideos.map((v, i) => (
+                  <div
+                    key={i}
+                    className={`orientation-slide ${i === orientIndex ? 'active' : ''}`}
+                    ref={(el) => (orientSlideRefs.current[i] = el)}
+                  >
+                    <a
+                      className="video-card"
+                      href={`https://www.youtube.com/watch?v=${v.id}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${v.title} (opens on YouTube)`}
+                    >
+                      <div className="thumb-wrap">
+                        <img
+                          src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
+                          alt={v.title}
+                          className="video-thumb"
+                          loading="lazy"
+                        />
+                        <div className="play-badge">▶</div>
+                      </div>
+                      <div className="video-meta">
+                        <h3 className="video-title">{v.title}</h3>
+                        <span className="video-cta">Watch on YouTube</span>
+                      </div>
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="carousel-dots" role="tablist" aria-label="Orientation slides">
+              {orientationVideos.map((_, i) => (
+                <button
+                  key={i}
+                  className={`dot ${i === orientIndex ? 'active' : ''}`}
+                  aria-label={`Go to orientation slide ${i + 1}`}
+                  aria-selected={i === orientIndex}
+                  onClick={() => setOrientIndex(i)}
+                />
+              ))}
+            </div>
+
+            <button
+              className="carousel-btn next"
+              aria-label="Next orientation video"
+              onClick={() => setOrientIndex((i) => (i + 1) % orientationVideos.length)}
+            >
+              ›
+            </button>
+          </div>
+        ) : (
+          <div className="orientation-grid">
+            {orientationVideos.map((v, i) => (
+              <a
+                key={i}
+                className="video-card"
+                href={`https://www.youtube.com/watch?v=${v.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${v.title} (opens on YouTube)`}
+              >
+                <div className="thumb-wrap">
+                  <img
+                    src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
+                    alt={v.title}
+                    className="video-thumb"
+                    loading="lazy"
+                  />
+                  <div className="play-badge">▶</div>
+                </div>
+                <div className="video-meta">
+                  <h3 className="video-title">{v.title}</h3>
+                  <span className="video-cta">Watch on YouTube</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        )}
+      </section>
+      </section>
+      <section className="latest-updates-section">
+        <h2 className="latest-updates-title">Latest Updates</h2>
+        <div className="ticker-wrapper" aria-label="Latest updates ticker" role="region">
+          <div className="ticker">
+            <div className="ticker-track">
+              {updates.map((update, i) => (
+                <div key={i} className="ticker-item">
+                  <strong>{update.title}</strong> &mdash; <time dateTime={update.date}>{update.date}</time>
+                </div>
+              ))}
+              {updates.map((update, i) => (
+                <div key={`dup-${i}`} className="ticker-item">
+                  <strong>{update.title}</strong> &mdash; <time dateTime={update.date}>{update.date}</time>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="faqs-section" aria-label="Frequently Asked Questions">
+        <h2 className="faqs-title">FAQs</h2>
+        <div className="faqs-list">
+          {faqs.map((item, idx) => (
+            <details key={idx} className="faq-item">
+              <summary className="faq-question">
+                <span>{item.q}</span>
+                <span className="faq-icon" aria-hidden>+</span>
+              </summary>
+              <div className="faq-answer">{item.a}</div>
+            </details>
+          ))}
+        </div>
+      </section>
+      {/* Floating Chatbot */}
+      <button
+        type="button"
+        className="chatbot-fab"
+        aria-label={chatOpen ? 'Close chat' : 'Open chat'}
+        onClick={() => setChatOpen((v) => !v)}
+      >
+        💬
+      </button>
+
+      {chatOpen && (
+        <div className="chatbot-panel" role="dialog" aria-modal="false" aria-label="Chatbot">
+          <div className="chatbot-header">
+            <strong>Chat Support</strong>
+            <button
+              type="button"
+              className="chatbot-close"
+              aria-label="Close chat"
+              onClick={() => setChatOpen(false)}
+            >×</button>
+          </div>
+          <div className="chatbot-body">
+            <div className="chatbot-message bot">Hi! How can I help you today?</div>
+          </div>
+          <div className="chatbot-input">
+            <input
+              type="text"
+              placeholder="Type a message…"
+              aria-label="Message"
+              value={chatText}
+              onChange={(e) => setChatText(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  sendToWhatsApp();
+                }
+              }}
+            />
+            <button
+              type="button"
+              className="chatbot-send"
+              aria-label="Send"
+              onClick={sendToWhatsApp}
+            >
+              Send
+            </button>
+            <button type="button" className="chatbot-wati" title="Chat on WhatsApp via WATI" onClick={openWati}>
+              Whatsapp
+            </button>
+          </div>
+        </div>
+      )}
       <Footer />
     </>
   );
