@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Navbar.css";
 import "./Footer.css";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -79,14 +80,16 @@ const Navbar = () => {
   return (
     <nav className="navbar" ref={navbarRef}>
       <div className="navbar-container">
-        <div className="navbar-logo">Civic Centre IAS</div>
+        <div className="navbar-logo">
+          <Link className="homelink" to="/">Civic Centre IAS</Link>
+        </div>
         <ul className={`navbar-links ${isOpen ? "mobile open" : "mobile"}`}>
           <li className={`dropdown ${dropdownOpen === 'upsc' ? 'open' : ''}`} onClick={() => toggleDropdown('upsc')}>
             <button className="dropbtn">
               UPSC <span className="arrow">▼</span>
             </button>
             <div className="dropdown-content">
-              <a href="#upsc1">UPSC Option 1</a>
+              <a href="/UPSC">UPSC Template</a>
               <a href="#upsc2">UPSC Option 2</a>
             </div>
           </li>
@@ -95,7 +98,7 @@ const Navbar = () => {
               TGPSC <span className="arrow">▼</span>
             </button>
             <div className="dropdown-content">
-              <a href="#tgpsc1">TGPSC Option 1</a>
+              <a href="/TGPSC">TGPSC Template</a>
               <a href="#tgpsc2">TGPSC Option 2</a>
             </div>
           </li>
@@ -104,8 +107,8 @@ const Navbar = () => {
               APPSC <span className="arrow">▼</span>
             </button>
             <div className="dropdown-content">
-              <a href="/APPSC">APPSC Option 1</a>
-              <a href="#appsc2">APPSC Option 2</a>
+              <a href="/APPSC">APPSC Course Template</a>
+              <a href="/testseries">Test Series Template</a>
             </div>
           </li>
           <li className={`dropdown ${dropdownOpen === 'examott' ? 'open' : ''}`} onClick={() => toggleDropdown('examott')}>
@@ -117,8 +120,8 @@ const Navbar = () => {
               <a href="#examott2">ExamOTT Option 2</a>
             </div>
           </li>
-          <li><a href="/about">About</a></li>
-          <li><a href="/contact">Contact</a></li>
+          <li className="notdropdown"><a href="/about">About</a></li>
+          <li className="notdropdown"><a href="/contact">Contact</a></li>
           <li className={`dropdown ${dropdownOpen === "login" ? "open" : ""} mobile-only`} onClick={() => toggleDropdown("login")}>
             <button className="dropbtn">
               Login <span className="arrow">▼</span>

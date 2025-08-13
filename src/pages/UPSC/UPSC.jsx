@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import "./APPSC.css";
-import appsclogoSVG from "../../assets/appsclogo.svg?raw";
+import "../APPSC/APPSC.css";
+import upscLogoSVG from "../../assets/upsc.svg?raw";
 import Chatbot from "../../Components/Chatbot";
 
-const APPSC = () => {
+const UPSC = () => {
   const logoRef = useRef(null);
   const heroRef = useRef(null);
   const orientationRef = useRef(null);
@@ -35,14 +35,14 @@ const APPSC = () => {
 
   // Latest updates (edit these items as needed)
   const updates = [
-    { title: 'APPSC Group I notification out', date: '11 Aug 2025' },
+    { title: 'UPSC notification out', date: '11 Aug 2025' },
     { title: 'New orientation session uploaded', date: '10 Aug 2025' },
     { title: 'Syllabus PDF updated', date: '08 Aug 2025' },
   ];
 
   // FAQs (edit as needed)
   const faqs = [
-    { q: 'What is the course duration?', a: 'The APPSC program typically runs for X months with weekly schedules.' },
+    { q: 'What is the course duration?', a: 'The UPSC program typically runs for X months with weekly schedules.' },
     { q: 'Do I get recorded sessions?', a: 'Yes, all live classes are recorded and made available within 24 hours.' },
     { q: 'Is there a refund policy?', a: 'Yes, refunds are available within the first 7 days as per our policy.' },
     { q: 'How do I access study materials?', a: 'Materials are available in the portal under the Material tab after enrollment.' },
@@ -184,7 +184,7 @@ const APPSC = () => {
             <div className="course-image">
               <img
                 src="https://placehold.co/400x300"
-                alt="APPSC Course"
+                alt="UPSC Course"
                 width="400"
                 height="300"
                 className="course-card-image"
@@ -192,7 +192,7 @@ const APPSC = () => {
               />
             </div>
             <div className="course-info">
-              <h3>Enroll in APPSC Group I</h3>
+              <h3>Enroll in UPSC</h3>
               <p><strong>Start Date:</strong> DD MMM YYYY</p>
               <p><strong>Duration:</strong> X Months</p>
               <p><strong>Price:</strong> ₹X,XXX</p>
@@ -208,14 +208,14 @@ const APPSC = () => {
             <div ref={logoRef} className="appsclogo-svg">
               <div
                 className="appsclogo-svg-inner"
-                dangerouslySetInnerHTML={{ __html: appsclogoSVG }}
+                dangerouslySetInnerHTML={{ __html: upscLogoSVG }}
               />
             </div>
           </div>
           <div className="course-hero-content">
             <div className="course-header-details">
-              <h1>Andhra Pradesh Public Service Commission (APPSC)</h1>
-              <p className="course-subtitle">Your gateway to success in APPSC Group I</p>
+              <h1>Union Public Service Commission (UPSC)</h1>
+              <p className="course-subtitle">Your gateway to success in UPSC</p>
               <p className="course-dates">
                 <strong>Start Date:</strong> DD MMM YYYY &nbsp;|&nbsp; <strong>End Date:</strong> DD MMM YYYY
               </p>
@@ -230,7 +230,7 @@ const APPSC = () => {
             <div className="course-image">
               <img
                 src="https://placehold.co/400x300"
-                alt="APPSC Course"
+                alt="UPSC Course"
                 width="400"
                 height="300"
                 className="course-card-image"
@@ -238,7 +238,7 @@ const APPSC = () => {
               />
             </div>
             <div className="course-info">
-              <h3>Enroll in APPSC Group I</h3>
+              <h3>Enroll in UPSC</h3>
               <p><strong>Start Date:</strong> DD MMM YYYY</p>
               <p><strong>Duration:</strong> X Months</p>
               <p><strong>Price:</strong> ₹X,XXX</p>
@@ -475,4 +475,4 @@ const APPSC = () => {
   );
 };
 
-export default APPSC;
+export default UPSC;

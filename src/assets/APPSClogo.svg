@@ -24,7 +24,8 @@
       }
 
       .cls-6 {
-        fill: #edf5ed;
+        /* was #edf5ed */
+        fill: #ffffff;
       }
 
       .cls-7 {
@@ -33,11 +34,13 @@
 
 
       .cls-9 {
-        fill: #b5cfbb;
+        /* was #b5cfbb */
+        fill: #ffffff;
       }
 
       .cls-10 {
-        fill: #d4e7d8;
+        /* was #d4e7d8 */
+        fill: #ffffff;
       }
 
       .cls-11 {
@@ -49,11 +52,13 @@
       }
 
       .cls-13 {
-        fill: #86ad90;
+        /* was #86ad90 */
+        fill: #ffffff;
       }
 
       .cls-14 {
-        fill: #5a9267;
+        /* was #5a9267 */
+        fill: #ffffff;
       }
 
       .cls-15 {
