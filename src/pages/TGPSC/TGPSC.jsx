@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import "../APPSC/APPSC.css";
-
 import tgpscLogoSVG from "../../assets/tgpsc.svg?raw";
 import Chatbot from "../../Components/Chatbot";
 
@@ -37,8 +36,8 @@ const TGPSC = () => {
   // Latest updates (edit these items as needed)
   const updates = [
     { title: 'TGPSC Group I notification out', date: '11 Aug 2025' },
-    { title: 'New orientation session uploaded', date: '10 Aug 2025' },
-    { title: 'Syllabus PDF updated', date: '08 Aug 2025' },
+    { title: 'New TGPSC orientation session uploaded', date: '10 Aug 2025' },
+    { title: 'TGPSC Syllabus PDF updated', date: '08 Aug 2025' },
   ];
 
   // FAQs (edit as needed)
@@ -58,11 +57,16 @@ const TGPSC = () => {
   ];
   const [masterIndex, setMasterIndex] = useState(0);
   const slideRefs = useRef([]);
+  // Masters carousel viewport ref
+  const masterViewportRef = useRef(null);
 
   // Orientation carousel state & refs
   const [orientIndex, setOrientIndex] = useState(0);
   const orientSlideRefs = useRef([]);
   const orientViewportRef = useRef(null);
+  // Skip initial auto-scrolls for both carousels
+  const masterDidMount = useRef(false);
+  const orientDidMount = useRef(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -156,19 +160,34 @@ const TGPSC = () => {
     return () => observer.disconnect();
   }, []);
 
-  // Keep active master slide centered on change
+  // Keep active master slide centered on change (skip initial mount)
   useEffect(() => {
+    if (!masterDidMount.current) {
+      masterDidMount.current = true; // skip initial auto-scroll on page load
+      return;
+    }
     const el = slideRefs.current[masterIndex];
-    if (el && typeof el.scrollIntoView === 'function') {
-      el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-    }
+    const vp = masterViewportRef.current;
+    if (!el || !vp) return;
+    // Compute target left so we only scroll the horizontal container, not the page
+    const vpStyle = getComputedStyle(vp);
+    const padLeft = parseInt(vpStyle.paddingLeft || '0', 10);
+    const targetLeft = el.offsetLeft - padLeft;
+    vp.scrollTo({ left: targetLeft, behavior: 'smooth' });
   }, [masterIndex]);
-  // Keep active orientation slide centered on change
+  // Keep active orientation slide centered on change (skip initial mount)
   useEffect(() => {
-    const el = orientSlideRefs.current[orientIndex];
-    if (el && typeof el.scrollIntoView === 'function') {
-      el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    if (!orientDidMount.current) {
+      orientDidMount.current = true; // skip initial auto-scroll on page load
+      return;
     }
+    const el = orientSlideRefs.current[orientIndex];
+    const vp = orientViewportRef.current;
+    if (!el || !vp) return;
+    const vpStyle = getComputedStyle(vp);
+    const padLeft = parseInt(vpStyle.paddingLeft || '0', 10);
+    const targetLeft = el.offsetLeft - padLeft;
+    vp.scrollTo({ left: targetLeft, behavior: 'smooth' });
   }, [orientIndex]);
   // Removed sticky card scroll effect
 
@@ -269,12 +288,6 @@ const TGPSC = () => {
             >
               Material
             </button>
-            <button
-              className={activeTab === "faqs" ? "active" : ""}
-              onClick={() => setActiveTab("faqs")}
-            >
-              FAQ's
-            </button>
           </div>
           <div className="tab-content">
             {activeTab === "overview" && (
@@ -296,6 +309,7 @@ const TGPSC = () => {
         <h2 className="masters-title">Meet Your Masters</h2>
         <div className="masters-carousel">
           <button
+            type="button"
             className="carousel-btn prev"
             aria-label="Previous"
             onClick={() => setMasterIndex((i) => (i - 1 + masters.length) % masters.length)}
@@ -303,7 +317,21 @@ const TGPSC = () => {
             ‹
           </button>
 
-          <div className="carousel-viewport">
+          <div
+            className="carousel-viewport"
+            ref={masterViewportRef}
+            tabIndex={0}
+            aria-roledescription="carousel"
+            aria-label="Masters"
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowLeft') {
+                setMasterIndex((i) => (i - 1 + masters.length) % masters.length);
+              }
+              if (e.key === 'ArrowRight') {
+                setMasterIndex((i) => (i + 1) % masters.length);
+              }
+            }}
+          >
             <div className="carousel-track">
               {masters.map((m, idx) => (
                 <div
@@ -324,6 +352,7 @@ const TGPSC = () => {
           <div className="carousel-dots" role="tablist" aria-label="Master slides">
             {masters.map((_, i) => (
               <button
+                type="button"
                 key={i}
                 className={`dot ${i === masterIndex ? 'active' : ''}`}
                 aria-label={`Go to slide ${i + 1}`}
@@ -334,6 +363,7 @@ const TGPSC = () => {
           </div>
 
           <button
+            type="button"
             className="carousel-btn next"
             aria-label="Next"
             onClick={() => setMasterIndex((i) => (i + 1) % masters.length)}
@@ -347,15 +377,29 @@ const TGPSC = () => {
         {orientationVideos.length > 3 ? (
           <div className="orientation-carousel">
             <button
+              type="button"
               className="carousel-btn prev"
               aria-label="Previous orientation video"
               onClick={() => setOrientIndex((i) => (i - 1 + orientationVideos.length) % orientationVideos.length)}
             >
               ‹
             </button>
-
-            <div className="orientation-viewport" ref={orientViewportRef}>
-              <div className="orientation-track">
+            <div
+              className="orientation-viewport"
+              ref={orientViewportRef}
+              tabIndex={0}
+              aria-roledescription="carousel"
+              aria-label="Orientation videos"
+              onKeyDown={(e) => {
+                if (e.key === 'ArrowLeft') {
+                  setOrientIndex((i) => (i - 1 + orientationVideos.length) % orientationVideos.length);
+                }
+                if (e.key === 'ArrowRight') {
+                  setOrientIndex((i) => (i + 1) % orientationVideos.length);
+                }
+              }}
+            >
+              <div id="orientation-track" className="orientation-track">
                 {orientationVideos.map((v, i) => (
                   <div
                     key={i}
@@ -387,10 +431,18 @@ const TGPSC = () => {
                 ))}
               </div>
             </div>
-
+            <button
+              type="button"
+              className="carousel-btn next"
+              aria-label="Next orientation video"
+              onClick={() => setOrientIndex((i) => (i + 1) % orientationVideos.length)}
+            >
+              ›
+            </button>
             <div className="carousel-dots" role="tablist" aria-label="Orientation slides">
               {orientationVideos.map((_, i) => (
                 <button
+                  type="button"
                   key={i}
                   className={`dot ${i === orientIndex ? 'active' : ''}`}
                   aria-label={`Go to orientation slide ${i + 1}`}
@@ -399,14 +451,6 @@ const TGPSC = () => {
                 />
               ))}
             </div>
-
-            <button
-              className="carousel-btn next"
-              aria-label="Next orientation video"
-              onClick={() => setOrientIndex((i) => (i + 1) % orientationVideos.length)}
-            >
-              ›
-            </button>
           </div>
         ) : (
           <div className="orientation-grid">
@@ -469,6 +513,11 @@ const TGPSC = () => {
               <div className="faq-answer">{item.a}</div>
             </details>
           ))}
+        </div>
+      </section>
+      <section className="empty" >
+        <div className="empty-content">
+        &nbsp;&nbsp;&nbsp;&nbsp;<h5>12346767</h5>
         </div>
       </section>
       <Footer />
