@@ -44,7 +44,7 @@
 }
 
 .appsclogo-svg {
-  width: 80%;
+  width: 40%;
   height: auto;
   opacity: 0.15;
   transform: perspective(10000px) rotateX(10deg) rotate(var(--scroll-rotation, 0deg));
@@ -55,7 +55,7 @@
 }
 
 .course-hero-bg:hover .appsclogo-svg {
-  transform: perspective(800px) rotateX(10deg) scale(1.45);
+  transform: perspective(600px) rotateX(10deg) scale(1.45);
   opacity: 0.2;
 }
 
@@ -66,7 +66,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 2rem 1rem;
   color: #333;
@@ -225,6 +225,7 @@
     display: flex;
     justify-content: center;
     z-index: 999;
+    margin-left: -0.5rem;
 }
 @keyframes fadeIn {
   from { opacity: 0; }
@@ -281,7 +282,7 @@
 .masters-section {
   width: 50%;
   margin-left: 10.7%;  /* Align with tabs-wrapper's left offset */
-  margin-top: 16rem;  /* Space below the tabs */
+  margin-top: 18.3rem;  /* Space below the tabs */
   margin-bottom: 2rem;
   padding: 2rem 1rem;
   display: flex;
@@ -364,6 +365,7 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
+  position: relative; /* allow absolute-positioned arrows */
 }
 .carousel-track {
   display: flex;
@@ -402,14 +404,20 @@
 .carousel-caption h3 { margin: 0 0 0.25rem; font-size: 1.125rem; }
 .carousel-caption p { margin: 0; font-size: 0.95rem; opacity: 0.9; }
 
-/* Arrow buttons */
+/* Arrow buttons (masters carousel) */
 .carousel-btn {
   position: absolute;
-  top: 92%;
-  z-index: 2;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
 }
-.carousel-btn.prev { left: 0.5rem; }
-.carousel-btn.next { right: 0.5rem; }
+.carousel-btn.prev { left: -12px; }
+.carousel-btn.next { right: -12px; }
 
 /* Dots */
 .carousel-dots {
@@ -429,8 +437,9 @@
 
 .orientation-section {
   padding: 2rem 1rem;
+  padding-top: 0rem;
   background: #f9f9f9;
-  width: 70%;
+  width: 80%;
   margin: 2rem auto; /* ensure space above and below */
 }
 
@@ -451,6 +460,8 @@
   flex-direction: column;
   text-decoration: none;
   color: inherit;
+  height: 300px;
+  width: 350px;
   background: #fff;
   border-radius: 8px;
   overflow: hidden;
@@ -502,47 +513,58 @@
 
 .orientation-carousel {
   position: relative;
+  width: 100%;
+  max-width: 1500px; /* match masters carousel width */
+  margin: 0 auto 2rem auto; /* center it like masters */
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 2rem;
 }
 
 .orientation-viewport {
   overflow: hidden;
+  position: relative; /* containing block for arrows */
+  scroll-snap-type: x mandatory; /* enable snap like masters */
+  scroll-padding-left: 0 !important; /* no leading inset */
 }
 
 .orientation-track {
   display: flex;
   gap: 1rem;
-  padding: 0.25rem;
+  padding: 0 3rem; /* room so slides don't sit under arrows */
   scroll-behavior: smooth;
 }
 
 .orientation-slide {
   min-width: clamp(260px, 28vw, 360px);
   flex: 0 0 auto;
+  scroll-snap-align: start; /* align slides to the left edge */
 }
 
 .orientation-slide.active .video-card {
   outline: 2px solid rgba(0,0,0,0.08);
 }
 
-/* Arrow buttons and dots for orientation carousel */
-.orientation-carousel .carousel-btn.prev,
-.orientation-carousel .carousel-btn.next {
-  align-self: stretch;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 100%;
+/* Orientation arrows (match masters) */
+.orientation-carousel { position: relative; }
+.orientation-carousel > .carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #222;
+  color: #fff;
   border: none;
-  background: transparent;
-  font-size: 2rem;
   cursor: pointer;
 }
+.orientation-carousel > .carousel-btn.prev { left: -12px; }
+.orientation-carousel > .carousel-btn.next { right: -12px; }
 
 .orientation-carousel .carousel-dots {
   grid-column: 1 / -1;
@@ -569,12 +591,15 @@
   .orientation-slide {
     min-width: 82vw;
   }
+  .orientation-carousel > .carousel-btn.prev { left: 4px; }
+  .orientation-carousel > .carousel-btn.next { right: 4px; }
 }
 /* Latest Updates Section */
 .latest-updates-section {
   padding: 2rem 1rem;
+  padding-top: 0rem;
   background: #ffffff;
-  width: 70%;
+  width: 78%;
   margin: 2rem auto;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -627,16 +652,27 @@
 
 /* === Latest Updates Continuous Ticker (news-style scroller) === */
 /* Container keeps the ticker clipped */
-.latest-updates-section { overflow: hidden; }
+.latest-updates-section {
+  overflow: hidden; 
+  position: relative; /* for absolute positioning of ticker */
+  padding-bottom: 3rem; /* space for ticker */
+  background: #f9f9f9; /* light background for contrast */
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  margin-top: -2rem;
+}
 
 /* Variant A */
 .ticker-wrapper { 
   overflow: hidden; 
   position: absolute; 
+  bottom: 1rem;
+  margin-left: -1rem;
 }
 .ticker { 
   width: 100%; 
   overflow: hidden; 
+  background-color: #77777737;
 }
 .ticker-track { 
   display: flex; 
@@ -709,14 +745,14 @@
 
 /* === FAQs Section === */
 .faqs-section {
-  width: 70%;
-  margin-left: 15%;
-  padding-bottom: 10%;
+  width: 78%;
+  margin-left: 11%;
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   position: absolute;
   z-index: 999;
+  padding: 1.5%;
 }
 .faqs-title {
   text-align: center;
@@ -724,9 +760,10 @@
   margin-bottom: 1.25rem;
 }
 .faqs-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem 1.25rem; /* row gap, column gap */
+  align-items: start;
 }
 .faq-item {
   display: block;                /* ensure it renders as a block */
@@ -735,7 +772,8 @@
   border-radius: 8px;
   overflow: hidden;
 }
-.faqs-list .faq-item + .faq-item { margin-top: 0.75rem; }
+.faqs-section .faq-item { width: 100%; }
+.faqs-list .faq-item + .faq-item { margin-top: 0; }
 .faq-question {
   display: flex;
   justify-content: space-between;
@@ -760,8 +798,12 @@
   background: #fff;
   line-height: 1.6;
 }
-@media (max-width: 768px) {
-  .faqs-section { width: 90%; }
+
+.empty {
+  background: transparent;
+  height: 20%;
+  margin-bottom: 10%;
+  padding-bottom: 16% !important;
 }
 
 /* === Floating Chatbot === */
@@ -859,6 +901,10 @@
 }
 
 @media (width <= 768px) {
+
+  .course-page { isolation: isolate; }
+  .course-hero { overflow: hidden; z-index: 0; }
+
     .floating-course-card {
         position: fixed;
         top: 20%;
@@ -867,15 +913,35 @@
         max-width: 400px;
         left: 5%;
     }
+    /* Inline version of the floating card when rendered between hero and tabs on mobile */
+    .floating-course-card.mobile-inline {
+        position: static !important; /* make it part of normal flow */
+        width: 92% !important;
+        max-width: 520px;
+        left: auto; right: auto; top: auto;
+        margin: 1rem auto 1.25rem auto; /* space around the card */
+        z-index: 999; /* below overlays */
+        transform: none !important;
+        opacity: 1 !important;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+    /* ensure exit animation doesn't hide the inline card */
+    .floating-course-card.mobile-inline.exit {
+        transform: none !important;
+        opacity: 1 !important;
+        pointer-events: auto;
+    }
     .masters-section {
         width: 90%;
         margin-left: 5%;
-        margin-top: 20rem; /* Adjusted for smaller screens */
+        margin-top: 2rem;
     }
     .tabs-wrapper {
+        position: static; /* remove absolute positioning on mobile */
         width: 100%;
         left: 0;
         padding: 1rem;
+        margin-top: 0.5rem; /* slight gap below the inline card */
     }
     .tabs {
         flex-wrap: wrap;
@@ -896,8 +962,14 @@
         margin-bottom: 1rem;
     }
     .course-hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
         background: radial-gradient(circle at center, #f0f0f0, #dcdcdc);
-        transform: perspective(10000px) rotateX(10deg) rotate(var(--scroll-rotation, 0deg));
+        z-index: 0;
+        pointer-events: none;
     }
     .course-hero-bg:hover .appsclogo-svg {
         transform: perspective(800px) rotateX(10deg) scale(1.45);
@@ -954,19 +1026,14 @@
         gap: 1rem;
     }
     .orientation-carousel {
-        grid-template-columns: auto 1fr auto;
+        grid-template-columns: 1fr; /* keep arrows absolutely positioned */
         gap: 0.5rem;
     }
     .orientation-carousel .orientation-track {
-        padding: 0.25rem;
+        padding: 0; /* keep flush start on mobile too */
     }
     .orientation-carousel .orientation-slide {
-        min-width: 80vw; /* Adjust slide width for smaller screens */
-    }
-    .orientation-carousel .carousel-btn {
-        width: 36px; /* Smaller button size */
-        height: 36px;
-        font-size: 1.5rem; /* Smaller icon size */
+      min-width: 80vw; /* Adjust slide width for smaller screens */
     }
     .orientation-carousel .carousel-dots {
         margin-top: 0.5rem;
@@ -997,26 +1064,35 @@
         font-size: 0.95rem;
     }
     .faqs-section {
-        width: 90%;
-        margin-left: 5%;
+        width: 100%;
         padding: 1.5rem;
+        padding-bottom: 40%;
+        margin-left: 0%;
+        border-radius: 0%;
     }
     .faqs-section .faqs-title {
         font-size: 1.6rem;
     }
     .faqs-section .faqs-list {
-        flex-direction: column;
-        align-items: center;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
     }
     .faqs-section .faq-item {
         width: 100%;
-        max-width: 400px;
+        max-width: none;
     }
     .faqs-section .faq-question {
         padding: 0.75rem 1rem;
     }
     .faqs-section .faq-answer {
         padding: 0.75rem 1rem;
+    }
+    .empty {
+        background: transparent;
+        height: 20%;
+        margin-bottom: 12%;
+        padding-bottom: 32%;
     }
     .chatbot-fab {
         right: 16px;
@@ -1051,22 +1127,36 @@
         font-size: 0.95rem;
     }
     .course-hero-bg {
-        background: radial-gradient(circle at center, #f0f0f0, #dcdcdc);
-        transform: perspective(10000px) rotateX(10deg) rotate(var(--scroll-rotation, 0deg));
-    }
-    .course-hero-bg:hover .appsclogo-svg {
-        transform: perspective(800px) rotateX(10deg) scale(1.45);
-        opacity: 0.2;
-    }
-    .course-hero-bg .appsclogo-svg {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
-        height: auto;
-        opacity: 0.15;
-        transform: perspective(10000px) rotateX(10deg) rotate(var(--scroll-rotation, 0deg));
-        transition: transform 0.2s ease-out, opacity 0.8s ease-out;
+        height: 100%;
+        background: radial-gradient(circle at center, #f0f0f0, #dcdcdc);
+        z-index: 0;
+        pointer-events: none;
     }
-    .course-hero-bg .appsclogo-svg:hover { 
-        transform: perspective(800px) rotateX(10deg) scale(1.45);
-        opacity: 0.2;
-    }
+}
+
+.masters-section .carousel-viewport {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  scroll-padding-left: 0 !important;
+  overflow-x: auto;              /* keep programmatic/touch scroll */
+  -ms-overflow-style: none;      /* IE/Edge legacy */
+  scrollbar-width: none;         /* Firefox */
+}
+.masters-section .carousel-viewport::-webkit-scrollbar { /* Chrome/Safari */
+  display: none;
+  height: 0;
+}
+.masters-section .carousel-track {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+.masters-section .carousel-track > .carousel-slide:first-child {
+  margin-left: 0 !important;
+}
+@media (max-width: 768px) {
+  .orientation-carousel { max-width: 100%; }
 }

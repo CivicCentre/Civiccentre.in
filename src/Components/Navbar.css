@@ -1,3 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
+html, body, #root {
+  font-family: 'Inter', sans-serif !important;
+}
+*, *::before, *::after {
+  font-family: inherit;
+}
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+/* The navbar's z-index creates a stacking context; overlay is layered beneath menu within it */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -11,6 +24,14 @@
   left: 0;
   z-index: 1000;
   box-sizing: border-box;
+  border-color: #00000000;
+  border-style: solid;
+  border-width: 0 0 0.2px 0;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease, box-shadow 0.7s ease;
+  border-radius: 0 0 8px 4px;
 }
 
 .navbar-container {
@@ -43,7 +64,16 @@
   margin: 0;
   padding: 0;
   flex-wrap: nowrap;
+
 }
+
+.navbar-links .notdropdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 12px;
+}
+
 
 .navbar-links li a {
   color: #000000;
@@ -82,8 +112,29 @@
   cursor: pointer;
 }
 
+/* Global overlay for mobile menu blur (applies across breakpoints) */
+.mobile-overlay {
+  position: fixed;
+  inset: 0; /* top/right/bottom/left: 0 */
+  width: 100vw;
+  height: 100vh;
+  background: rgba(67, 160, 75, 0.535); /* translucent required for blur */
+  backdrop-filter: blur(10px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(120%) !important; /* iOS Safari */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+  z-index: 2000; /* below menu (3000) but above page */
+  pointer-events: none; /* disabled until shown */
+}
+.mobile-overlay.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto; /* allow tapping overlay to close */
+}
+
 .navbar-toggle .bar {
-  width: 25px;
+  width: 35px;
   height: 3px;
   background-color: #000000;
   margin: 4px 0;
@@ -101,6 +152,10 @@
   transform: rotate(-45deg) translate(5px, -5px);
 }
 
+.notdropdown {
+  text-align:center;
+}
+
 @media (max-width: 768px) {
   .navbar-center {
     display: none;
@@ -113,46 +168,37 @@
     flex-direction: column;
     cursor: pointer;
     position: relative;
-    z-index: 1001; /* keep toggle above menu */
+    z-index: 3002; /* keep toggle above menu and overlay */
   }
   .navbar-links.mobile {
-    position: absolute;
-    top: 100%;
-    right: -40%;
-    min-width: 40%;
-    width: auto;
-    max-width: 100%;
-    width: 40%;
-    list-style: none;
-    height: auto;
-    background: rgba(254, 253, 253, 0.276);
-    backdrop-filter: blur(8px);
-    display: flex;
-    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    width: 50%;
     align-items: flex-start;
-    padding: 2rem 1rem;
-    transition: right 0.4s ease;
-    z-index: 999;
-    max-height: calc(100vh - 70px);
-    overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
+    padding-left: 3%;
+    max-width: 300px;
+    background-color: #fff;
+    flex-direction: column;
+    padding-top: 60px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    z-index: 3000;
+  }
+
+  .notdropdown {
+    display: none; /* Hide non-dropdown links on mobile */
+    align-items: flex-start;
+    padding-left: 1rem;
   }
 
   .navbar-links.mobile.open {
-    height: auto;
-    right: 0;
-    min-width: 40%;
-    width: auto;
-    max-width: 100%;
-    z-index: 1001;
-    max-height: calc(100vh - 70px);
-    overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    touch-action: pan-y;
+    transform: translateX(0);
+    z-index: 3001;
   }
+
 
   /* Allow long dropdown text to wrap on mobile */
   .navbar-links.mobile .dropbtn,
@@ -161,32 +207,15 @@
     overflow-wrap: anywhere;
   }
 
-  /* Overlay behind mobile navbar */
-  .mobile-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: calc(100% - 40%);
-    height: 100%;
-    background: rgba(100, 200, 105, 0.129);
-    backdrop-filter: blur(4px);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease;
-    z-index: 999;
-  }
+  /* Removed duplicate mobile overlay styles */
 
-  .mobile-overlay.show {
-    opacity: 1;
-    visibility: visible;
-  }
 }
 
-/* Page content padding */
+ /* Page content padding */
 body {
   margin: 0;
   padding-top: 70px;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif !important;
 }
 
 .dropdown {
@@ -422,3 +451,13 @@ body {
     display: none;
   }
 }
+
+.homelink {
+  color: #000000;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+
