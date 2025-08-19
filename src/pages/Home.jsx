@@ -387,7 +387,7 @@ const TestimonialCard = ({ imgSrc, name, rank, testimonial }) => (
 );
 
 const YouTubeVideoCard = ({ videoId }) => (
-  <div className="video-card card">
+  <div className="video-card">
     <div className="video-container">
       <img
         src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
@@ -398,34 +398,9 @@ const YouTubeVideoCard = ({ videoId }) => (
   </div>
 );
 
-const FAQItem = ({ question, answer }) => (
-  <div className="faq-item card">
-    <details>
-      <summary className="faq-question">
-        <span>{question}</span>
-        <svg
-          className="faq-arrow"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M19 9l-7 7-7-7"
-          ></path>
-        </svg>
-      </summary>
-      <p className="faq-answer">{answer}</p>
-    </details>
-  </div>
-);
-
 const Card = ({ title }) => {
   return (
-    <div className="prompt-card card">
+    <div className="prompt-card">
       <p>{title}</p>
       <div className="arrow">→</div>
     </div>
@@ -434,7 +409,7 @@ const Card = ({ title }) => {
 
 const DownloadAppSection = () => (
   <section className="download-app-section section-spacing">
-    <div className="container download-app-container card">
+    <div className="container download-app-container">
       <div className="download-app-content">
         <h2 className="download-app-heading">Join 15 Million students on the app today!</h2>
         <ul className="download-app-features">
@@ -472,9 +447,9 @@ const RecentUpdatesSection = ({ updatesData }) => (
     <div className="container">
       <h2 className="heading-secondary">Latest Updates</h2>
       <div className="updates-scroller-wrapper">
-        <div className="updates-grid">
+        <div className="updates-grid card">
           {updatesData.map((update, index) => (
-            <div key={`update-${index}`} className="update-category-card card">
+            <div key={`update-${index}`} className="update-category-card">
               <h3 className="update-category-title">{update.category}</h3>
               <ul className="update-list">
                 {update.items.map((item, itemIndex) => (
@@ -621,6 +596,58 @@ const SocialPopupBar = () => {
 
 const Home = () => {
   const message = 'Hello, I would like to know more about your courses.';
+  const [openIndex, setOpenIndex] = useState(null);
+
+  const toggleFAQ = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
+  const faqData = [
+    {
+      question: 'What is the duration of the course?',
+      answer: 'Our foundation courses typically run for 10-12 months, followed by dedicated revision and test series.',
+    },
+    {
+      question: 'Do you provide coaching for both Prelims and Mains?',
+      answer: 'Yes, our programs cover the entire UPSC cycle — Prelims, Mains, and Interview — including essay writing and ethics.',
+    },
+    {
+      question: 'Can working professionals join your classes?',
+      answer: 'Absolutely. We have weekend batches, evening classes, and recorded sessions to accommodate working aspirants.',
+    },
+    {
+      question: 'Will I get complete study material from the academy?',
+      answer: 'Yes, our curated notes, current affairs compilations, and test series are designed to cover the UPSC syllabus comprehensively.',
+    },
+    {
+      question: 'Are classes available online?',
+      answer: 'Yes, we offer both offline classroom sessions and high-quality live online classes with interactive doubt clearing.',
+    },
+    {
+      question: 'How often are mock tests conducted?',
+      answer: 'Prelims mock tests are held weekly, Mains answer writing practice is done daily or weekly, and monthly full-length tests are conducted.',
+    },
+    {
+      question: 'Which optional subjects do you offer?',
+      answer: 'We cover popular UPSC optionals like Anthropology, Sociology, Political Science, Public Administration, Geography, History, and more.',
+    },
+    {
+      question: 'Do you provide mock interviews?',
+      answer: 'Yes, our mock interview panel consists of retired bureaucrats, subject experts, and senior faculty to simulate the real UPSC environment.',
+    },
+    {
+      question: 'What is Glassmorphism?',
+      answer: 'Glassmorphism is a modern UI design trend that uses a frosted-glass effect with semi-transparent backgrounds and subtle borders.',
+    },
+    {
+      question: 'How do I apply this effect to my website?',
+      answer: 'You can apply the effect using CSS properties like `backdrop-filter: blur()`, `rgba()` for the background color, and a subtle border.',
+    }
+  ];
+  
+  const firstFive = faqData.slice(0, 5);
+  const secondFive = faqData.slice(5, 10);
+  
 
   return (
     <div className="page-wrapper">
@@ -770,6 +797,7 @@ const Home = () => {
         </section>
         {/* Get In Touch Section - after success stories */}
         <section className="get-in-touch-section section-spacing">
+            <div className="get-in-touch-container card">
             <div className="get-in-touch-form-wrapper">
             <h2 className="get-in-touch-heading">Get in touch with CivicCentre IAS</h2>
             <form className="get-in-touch-form">
@@ -783,24 +811,40 @@ const Home = () => {
             <div className="get-in-touch-image-wrapper">
             <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=600&q=80" alt="Get in touch" className="get-in-touch-image" />
             </div>
+            </div>
         </section>
 
-        {/* FAQ Section */}
-        <section className="faq-section section-spacing">
-            <div className="container">
-            <h2 className="heading-secondary">Frequently Asked Questions</h2>
-            <div className="faq-list">
-                <FAQItem question="What is the duration of the course?" answer="Our foundation courses typically run for 10-12 months, followed by dedicated revision and test series." />
-                <FAQItem question="Do you provide coaching for both Prelims and Mains?" answer="Yes, our programs cover the entire UPSC cycle — Prelims, Mains, and Interview — including essay writing and ethics." />
-                <FAQItem question="Can working professionals join your classes?" answer="Absolutely. We have weekend batches, evening classes, and recorded sessions to accommodate working aspirants." />
-                <FAQItem question="Will I get complete study material from the academy?" answer="Yes, our curated notes, current affairs compilations, and test series are designed to cover the UPSC syllabus comprehensively." />
-                <FAQItem question="Are classes available online?" answer="Yes, we offer both offline classroom sessions and high-quality live online classes with interactive doubt clearing." />
-                <FAQItem question="How often are mock tests conducted?" answer="Prelims mock tests are held weekly, Mains answer writing practice is done daily or weekly, and monthly full-length tests are conducted." />
-                <FAQItem question="Which optional subjects do you offer?" answer="We cover popular UPSC optionals like Anthropology, Sociology, Political Science, Public Administration, Geography, History, and more." />
-                <FAQItem question="Do you provide mock interviews?" answer="Yes, our mock interview panel consists of retired bureaucrats, subject experts, and senior faculty to simulate the real UPSC environment." />
+
+        {/* FAQ Section - NEW GLASS EFFECT */}
+        <div className="faq-container">
+          <div className="faq-glass-card">
+            <h1 className="faq-heading">Frequently Asked Questions</h1>
+            <div className="faq-content">
+              <div className="faq-column">
+                {firstFive.map((item, index) => (
+                  <div key={index} className="faq-item">
+                    <div className="faq-question" onClick={() => toggleFAQ(index)}>
+                      <p>{item.question}</p>
+                      <span className={`arrow ${openIndex === index ? 'up' : ''}`}>&#9660;</span>
+                    </div>
+                    {openIndex === index && <p className="faq-answer">{item.answer}</p>}
+                  </div>
+                ))}
+              </div>
+              <div className="faq-column">
+                {secondFive.map((item, index) => (
+                  <div key={index + 5} className="faq-item">
+                    <div className="faq-question" onClick={() => toggleFAQ(index + 5)}>
+                      <p>{item.question}</p>
+                      <span className={`arrow ${openIndex === index + 5 ? 'up' : ''}`}>&#9660;</span>
+                    </div>
+                    {openIndex === index + 5 && <p className="faq-answer">{item.answer}</p>}
+                  </div>
+                ))}
+              </div>
             </div>
-            </div>
-        </section>
+          </div>
+        </div>
       </div>
       <Footer />
     </div>

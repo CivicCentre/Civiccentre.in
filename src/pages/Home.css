@@ -436,46 +436,101 @@ img {
 */
 
 /* FAQ Section */
-.faq-list {
-  max-width: 700px;
-  margin: 0 auto;
+/* FAQ Section - Glass Effect */
+.faq-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 5%;
+  background-color: #9c3c96; /* A shade of purple */
+}
+
+.faq-glass-card {
+  background: rgba(182, 4, 4, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  padding: 40px;
+  width: 90%;
+  max-width: 1200px;
+  text-align: center;
+}
+
+.faq-heading {
+  color: rgb(16, 4, 107);
+  font-size: 2.5em;
+  margin-bottom: 30px;
+}
+
+.faq-content {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.faq-column {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .faq-item {
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  background-color: var(--white);
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .faq-question {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 15px 20px;
   cursor: pointer;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--primary-color);
-  padding-right: 1rem;
+  font-weight: bold;
 }
 
-.faq-answer {
-  padding-top: 1rem;
-  color: #666;
-  line-height: 1.8;
+.faq-question p {
+  margin: 0;
+  color: #333;
 }
 
-.faq-arrow {
-  width: 20px;
-  height: 20px;
+.arrow {
   transition: transform 0.3s ease;
 }
 
-.faq-item details[open] .faq-arrow {
+.arrow.up {
   transform: rotate(180deg);
 }
 
+.faq-answer {
+  padding: 0 20px 15px;
+  color: #666;
+  line-height: 1.5;
+  border-top: 1px solid #eee;
+  margin-top: 15px;
+}
+
+/* Responsive Styles for the FAQ Section */
+@media (max-width: 768px) {
+  .faq-content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .faq-glass-card {
+    padding: 20px;
+  }
+
+  .faq-heading {
+    font-size: 2em;
+  }
+}
 /* Social Media Bar */
 .social-bar {
   position: fixed;
@@ -580,7 +635,7 @@ img {
   font-size: 0.95rem;
   font-weight: 400;
   gap: 0.7rem;
-  animation: fadeInPop 10ms ease-in-out;
+  animation: fadeInPop 400ms ease-in-out;
   transition: opacity 4s, transform 8s;
   opacity: 1;
   transform: translateY(0);
