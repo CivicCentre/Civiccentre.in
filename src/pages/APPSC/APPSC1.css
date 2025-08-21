@@ -1,0 +1,79 @@
+
+/* APPSC1 page — styles scoped with the `appsci-` prefix to avoid collisions */
+:root { --appsci-max: 1100px; --appsci-gap: 24px; }
+
+.appsci-page { min-height: 100dvh; min-width: 100vw; margin: 0; padding: 0; display: flex; flex-direction: column; }
+
+.appsci-container { width: min(1200px, 92%); margin-top:6rem; margin-bottom:100px; margin-left: auto; margin-right: auto; padding-bottom: 48px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--appsci-gap); }
+
+.appsci-topbar { text-align: center; font-size: 12px; color: #222; padding: 6px 0; }
+.appsci-topbar strong { font-weight: 700; }
+
+/* Hard-center content blocks regardless of screen size */
+.appsci-hero,
+.appsci-tabs,
+.appsci-card-grid {
+  width: 100%;
+  max-width: var(--appsci-max);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Hero */
+.appsci-hero { position: relative; margin: 0 auto; display: flex; justify-content: center; }
+.appsci-hero-slide { border-radius: 14px; overflow: hidden; background: #f3f4f6; width: 100%; max-width: var(--appsci-max); }
+.appsci-hero-image { width: 100%; height: auto; display: block; aspect-ratio: 16/6; object-fit: cover; }
+.appsci-hero-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  z-index: 2;
+}
+.appsci-hero-dots .dot { width: 6px; height: 6px; border-radius: 999px; background: #d1d5db; display: inline-block; }
+.appsci-hero-dots .dot.active { background: #9ca3af; }
+
+/* Tabs */
+.appsci-tabs { display: flex; gap: 10px; align-items: center; padding: 10px 6px; border-radius: 10px; background: #f8fafc; border: 1px solid #eef2f7; overflow-x: auto; justify-content: center; margin: 0 auto; }
+.appsci-tab { position: relative; background: transparent; border: none; padding: 10px 14px; font-size: 14px; color: #374151; cursor: pointer; border-right: 1px solid #e5e7eb; }
+.appsci-tab:last-child { border-right: 0; }
+.appsci-tab.is-active { color: #0ea5e9; font-weight: 600; }
+
+/* Section Title */
+.appsci-section-title { margin: 0 auto; font-size: 18px; font-weight: 700; color: #111827; text-align: center; }
+
+/* Cards */
+.appsci-card-grid { display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; margin: 0 auto; }
+
+.appsci-card { background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,0.04); display: flex; flex-direction: column; width: 320px; }
+.appsci-card-media img { width: 100%; height: auto; display: block; aspect-ratio: 16/9; object-fit: cover; }
+.appsci-card-body { padding: 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.appsci-card-title { font-size: 15px; font-weight: 700; color: #111827; margin: 0; }
+.appsci-card-sub { font-size: 13px; color: #4b5563; margin: 0; }
+.appsci-card-note { font-size: 12px; color: #6b7280; margin: 0; }
+
+.appsci-price-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.appsci-chip { font-size: 12px; background: #111827; color: #fff; border-radius: 8px; padding: 8px 10px; display: inline-block; }
+
+.appsci-btn { margin-top: 8px; appearance: none; border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px 14px; font-size: 14px; cursor: pointer; background: #fff; width: 100%; }
+.appsci-btn:hover { background: #f9fafb; }
+
+/* Vertical rhythm: consistent gaps between stacked sections */
+.appsci-hero + .appsci-tabs { margin-top: var(--appsci-gap); }
+.appsci-tabs + .appsci-section-title { margin-top: calc(var(--appsci-gap) * 0.75); }
+.appsci-section-title + .appsci-card-grid { margin-top: calc(var(--appsci-gap) * 0.75); }
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .appsci-card { width: 300px; }
+}
+@media (max-width: 640px) {
+  :root { --appsci-gap: 16px; }
+  .appsci-container { width: min(100%, 94%); }
+  .appsci-hero-image { aspect-ratio: 16/9; }
+  .appsci-card { width: 100%; }
+}

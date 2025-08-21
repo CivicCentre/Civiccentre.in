@@ -1,15 +1,4 @@
-@media (min-width: 1601px) {
-  .base-home {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 0 20px;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 3600px;
-  }
-}
+
 
 /*
 * -------------------------------------------
@@ -23,7 +12,7 @@
 }
 
 html, body {
-  overflow-x: hidden;
+  overflow-x:scroll;
   width: 100%;
   max-width: 100%;
 }
@@ -39,6 +28,13 @@ html, body {
   --card-shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.12);
   --border-color: #e0e0e0; /* A subtle light gray for borders */
   --section-bg-light: #fefefe; /* a light off-white for section backgrounds */
+  --surface: #ffffff;
+  --muted: #6b7280;
+  --primary-contrast: #ffffff;
+  --radius-s: 8px;
+  --radius-m: 12px;
+  --radius-l: 16px;
+  --container: 1200px;
 }
 
 html {
@@ -48,13 +44,22 @@ html {
 body {
   font-family: 'Poppins', sans-serif;
   line-height: 1.6;
-  background-color: var(--accent-color);
   color: var(--text-color);
+  background-color: #f7f9fc;
 }
+
+/* --- Unified base utilities --- */
+.container { max-width: var(--container); margin-inline: auto; }
+.section-spacing { background: var(--accent-color); }
+.card { background: var(--surface); border: 1px solid var(--border-color); border-radius: var(--radius-l); box-shadow: var(--card-shadow); }
+img, video, .youtube-thumbnail { border-radius: var(--radius-m); }
 
 /* Reusable Components */
 .page-wrapper {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .container {
@@ -67,7 +72,7 @@ body {
 
 .section-spacing {
   padding: 5rem 0;
-  background: linear-gradient(90deg, #f7f9fc 0%, #e3e6f3 100%);
+  background: var(--accent-color);
 }
 
 .card {
@@ -184,16 +189,46 @@ img {
 */
 .image-slider-wrapper {
   position: relative;
+  background: var(--accent-color);
+  margin: 6rem auto;
+  max-width: var(--container);
   width: 100%;
-  height: 40vh;
+  height: clamp(240px, 40vw, 420px);
   overflow: hidden;
-  background-color: var(--primary-color);
+  border-radius: var(--radius-l);
+  box-shadow: var(--card-shadow);
+  padding-top: 0;
 }
+
+/* Center layout utilities for sections that do not use .container */
+.recent-updates-section,
+.download-app-section,
+.course-explorer-section,
+.why-choose-us-section,
+.faq-container,
+.get-in-touch-section { width: 100%; display: flex; justify-content: center; }
+
+.recent-updates-section > .container,
+.download-app-section > .download-app-container,
+.course-explorer-section > .container,
+.why-choose-us-section > .container,
+.faq-container > .faq-glass-card,
+.get-in-touch-section > .get-in-touch-container { width: 100%; max-width: var(--container); margin-inline: auto; }
+
+/* Ensure specific components align to center within the page */
+.image-slider-wrapper,
+.home-scrolling-container,
+.faq-glass-card,
+.get-in-touch-container { margin-inline: auto; }
 
 .slider-container {
   position: relative;
   width: 100%;
   height: 100%;
+  overflow: hidden;
+  background-color: var(--accent-color);
+  /* Ensures the slider is centered */
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -203,7 +238,9 @@ img {
   display: flex;
   width: 100%;
   height: 100%;
-  transition: transform 1.5s ease-in-out;
+  transition: transform .6s ease;
+  position: relative; 
+  background-color: var(--accent-color);
 }
 
 .slider-image {
@@ -307,47 +344,44 @@ img {
 * -------------------------------------------
 */
 .home-scrolling-container {
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 40px 0;
   overflow-x: hidden;
-  width: 100%;
+  width: 48%;
   max-width: 100vw;
-  background: linear-gradient(90deg, #000 0%, #222 100%);
+  border-radius: 20px;
+  background-color: var(--accent-color);
 }
 
-.prompt-card {
-  flex-shrink: 0;
-  width: 420px;
-  height: 50px;
-  background-color: rgba(116, 107, 107, 0.85);
-  color: #fff;
-  border: 2px solid rgba(171, 13, 13, 0.08);
-  border-radius: 8px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: middle;
-  margin-right: 20px;
-  font-size: 14px;
-  position: relative;
-  cursor: pointer;
-  transition: background-color 0.8s ease;
+/* --- Refined prompt scroller styling --- */
+.scrolling-row-container {
+  mask-image: linear-gradient(90deg, transparent 0, black 40px, black calc(100% - 40px), transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, black 40px, black calc(100% - 40px), transparent 100%);
 }
 
-.prompt-card:hover {
-  background-color: #1eca00;
+.prompt-card{
+  height: 56px;
+  min-width: 260px;
+  background: var(--surface);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  padding: 0 18px;
+  display:flex; align-items:center; justify-content:space-between;
+  gap: 14px;
+  box-shadow: var(--card-shadow);
+  transition: transform .12s ease, box-shadow .2s ease, border-color .2s ease, background-color .2s ease;
 }
+.prompt-card:hover{ transform: translateY(-1px); box-shadow: var(--card-shadow-hover); border-color: var(--secondary-color); background: #fff; }
+.prompt-card p{ color: inherit; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.prompt-card .arrow{ color: var(--secondary-color); font-weight: 700; }
 
-.prompt-card p {
-  color: #fff;
-}
-
-.prompt-card .arrow {
-  color: #1eca00;
-}
+/* Enforce prompt card text and arrow color overrides */
+.prompt-card p{ color: var(--text-color); }
+.prompt-card .arrow{ color: var(--secondary-color); }
 
 /* General Scrolling Container for all animated rows */
 .scrolling-row-container {
@@ -435,6 +469,31 @@ img {
 * -------------------------------------------
 */
 
+/* --- Why Choose Us: polished layout --- */
+.why-choose-us-section{ background: var(--accent-color); }
+.why-choose-us-content-wrapper{ display:grid; grid-template-columns: 1.1fr .9fr; gap: 2.5rem; align-items: center; }
+.why-choose-us-text{ display:grid; gap: 1rem; }
+.why-choose-us-list{ display:grid; gap: 12px; }
+.why-choose-us-list li{
+  list-style: none;
+  display:flex; align-items:flex-start; gap: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px 14px;
+  box-shadow: var(--card-shadow);
+}
+.why-choose-us-list li::before{
+  content: "✔";
+  display:inline-grid; place-items:center;
+  min-width: 28px; height: 28px; border-radius: 999px;
+  background: var(--secondary-color); color: #fff; font-size: 14px; font-weight: 700;
+  margin-top: 2px;
+}
+.why-choose-us-image img{ width:100%; height: 280px; object-fit: cover; border-radius: 16px; box-shadow: var(--card-shadow); }
+
+
+
 /* FAQ Section */
 /* FAQ Section - Glass Effect */
 .faq-container {
@@ -442,20 +501,20 @@ img {
   justify-content: center;
   align-items: center;
   padding: 50px 5%;
-  background-color: #9c3c96; /* A shade of purple */
+  background-color: var(--accent-color);
 }
 
 .faq-glass-card {
-  background: rgba(182, 4, 4, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-l);
+  box-shadow: var(--card-shadow);
   padding: 40px;
   width: 90%;
-  max-width: 1200px;
+  max-width: var(--container);
   text-align: center;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .faq-heading {
@@ -516,21 +575,6 @@ img {
   margin-top: 15px;
 }
 
-/* Responsive Styles for the FAQ Section */
-@media (max-width: 768px) {
-  .faq-content {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .faq-glass-card {
-    padding: 20px;
-  }
-
-  .faq-heading {
-    font-size: 2em;
-  }
-}
 /* Social Media Bar */
 .social-bar {
   position: fixed;
@@ -760,7 +804,7 @@ img {
 
 /* Download App Section */
 .download-app-section {
-  background: linear-gradient(90deg, #f7f9fc 0%, #e3e6f3 100%);
+  background: var(--accent-color);
   padding-top: 5rem;
   padding-bottom: 5rem;
 }
@@ -830,7 +874,7 @@ img {
 
 /* Course Explorer Section (Udemy Style) */
 .course-explorer-section {
-  background: linear-gradient(90deg, #fff 0%, #e3e6f3 100%);
+  background: var(--accent-color);
   padding: 5rem 0;
 }
 
@@ -1055,13 +1099,13 @@ img {
 
 .btn-explore:hover {
   background-color: var(--primary-color);
-  color: var,--white;
+  color: var(--white);
 }
 
 .btn-buy-now {
   flex: 1;
   background-color: var(--primary-color);
-  color: var,--white;
+  color: var(--white);
   border: 2px solid var(--primary-color);
   padding: 0.8rem 1rem;
   font-size: 1rem;
@@ -1115,229 +1159,6 @@ img {
   animation-duration: 18s;
 }
 
-/*
-* -------------------------------------------
-* 8. Responsive Media Queries
-* -------------------------------------------
-*/
-@media (max-width: 767px) {
-  html {
-    font-size: 12px;
-  }
-
-  /* Image Slider Specific */
-  .image-slider-wrapper {
-    height: 40vh;
-  }
-  .slider-button {
-    padding: 0.5rem;
-    font-size: 1.5rem;
-  }
-  .slider-button.prev-button {
-    left: 0.5rem;
-  }
-  .slider-button.next-button {
-    right: 0.5rem;
-  }
-  .slider-dots {
-    bottom: 1rem;
-  }
-  .dot {
-    width: 10px;
-    height: 10px;
-  }
-  .hero-overlay .hero-headline {
-    font-size: clamp(2rem, 6vw, 3rem);
-  }
-  .hero-overlay .hero-subheadline {
-    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
-  }
-
-  .home-scrolling-container {
-    padding: 20px 0;
-  }
-
-  /* Horizontal Scroller for Recent Updates Section */
-  .updates-grid {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    gap: 1rem;
-    padding: 0 1rem 1rem;
-    scroll-snap-type: x mandatory;
-    scroll-padding-left: 1rem;
-    max-width: 100%;
-    width: 100%;
-  }
-
-  .update-category-card {
-    flex-shrink: 0;
-    width: calc(100% - 2rem);
-    scroll-snap-align: start;
-    padding: 1rem;
-  }
-
-  .update-category-title {
-    font-size: 1rem;
-  }
-
-  .update-link {
-    font-size: 0.9rem;
-  }
-
-  /* Horizontal Scroller for Video & Testimonial Sections */
-  .scrolling-row-container {
-    overflow-x: scroll;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 1rem;
-  }
-
-  .scrolling-row {
-    animation: scrollLeft 15s linear infinite;
-    white-space: normal;
-    gap: 1rem;
-    justify-content: flex-start;
-  }
-
-  .scrolling-row.reverse-animation {
-    animation-name: scrollRight;
-  }
-
-  /* Download App Section */
-  .download-app-section {
-    padding: 2rem 1.5rem;
-  }
-
-  .download-app-container {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 0;
-    gap: 2rem;
-    height: auto;
-  }
-
-  .download-app-content {
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .download-app-heading {
-    font-size: 1.8rem;
-  }
-
-  .download-app-features li {
-    justify-content: center;
-    font-size: 1rem;
-    margin: 0.5rem 0;
-  }
-
-  .app-links {
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 1.5rem;
-  }
-
-  .app-links img {
-    width: 140px;
-  }
-
-  .download-app-image {
-    order: -1;
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-
-  .download-app-image img {
-    max-width: 100px;
-    height: auto;
-  }
-
-  .why-choose-us-list li {
-    font-size: 0.9rem;
-  }
-
-  .faq-question {
-    font-size: 1rem;
-  }
-
-  /* Course Explorer Section */
-  .course-details-card {
-    flex-shrink: 0;
-    width: calc(100vw - 3rem);
-  }
-}
-
-@media (min-width: 768px) {
-  .hero-content-wrapper {
-    flex-direction: row;
-    text-align: left;
-    gap: 4rem;
-    padding: 0;
-  }
-
-  .hero-text {
-    flex: 1;
-  }
-
-  .hero-image {
-    flex: 1;
-  }
-
-  .heading-secondary {
-    font-size: 3rem;
-  }
-
-  .why-choose-us-content-wrapper {
-    flex-direction: row;
-  }
-
-  .why-choose-us-image {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .why-choose-us-image img {
-    max-width: 180px;
-    height: auto;
-    border-radius: 16px;
-    box-shadow: 0 2px 12px rgba(30,60,114,0.10);
-  }
-
-  .why-choose-us-text {
-    flex: 1;
-  }
-
-  .cta-banner-text {
-    font-size: 3rem;
-  }
-
-  /* Course Explorer Section - Desktop Layout */
-  .udemy-course-scroller {
-    display: flex;
-    gap: 1rem;
-    padding-bottom: 1rem;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    scroll-padding-left: 1rem;
-  }
-
-  .course-details-card {
-    flex: 0 0 250px;
-    scroll-snap-align: start;
-  }
-}
-
-@media (min-width: 1024px) {
-  .hero-overlay .hero-headline {
-    font-size: 4rem;
-  }
-}
-
 .videos-section .scrolling-row-container {
   height: 180px;
   min-height: 0;
@@ -1352,6 +1173,11 @@ img {
   height: 160px;
   max-height: 160px;
 }
+
+/* --- Unify video & testimonial cards with prompt rhythm --- */
+.videos-section .scrolling-row, .testimonials-section .scrolling-row{ gap: 1rem; }
+.video-card, .testimonial-card{ background: var(--surface); border: 1px solid var(--border-color); border-radius: 16px; box-shadow: var(--card-shadow); }
+.testimonial-image{ width: 96px; height: 96px; object-fit: cover; border-radius: 50%; border: 3px solid var(--secondary-color); }
 
 /*
 * -------------------------------------------
@@ -1424,35 +1250,123 @@ img {
   object-fit: cover;
 }
 
-@media (max-width: 900px) {
-  .social-popup-bar {
-    display: none !important;
+
+
+/*
+* -------------------------------------------
+* 10. Mobile (<=768px)
+* -------------------------------------------
+*/
+@media (max-width: 768px) {
+  html { font-size: 13px; }
+
+  .container { padding: 0 1rem; }
+  .section-spacing { padding: 3rem 0; }
+
+  /* Image slider (hero) – edge-to-edge within mobile container */
+  .image-slider-wrapper {
+    width: 86%;
+    max-width: 400px;
+    margin: 2rem auto -1rem 1rem; /* cancel the container's 1rem side padding */
+    min-height: 120px;
+    height: clamp(120px, 52vw, 140px);
+    border-radius: 0; /* flush with screen edges */
+    display: block;
+    background: var(--accent-color);
   }
-  .social-bar {
-    display: none !important;
-  }
-  .get-in-touch-container {
+  .slider-button { padding: 0.5rem; font-size: 1.25rem; }
+  .slider-button.prev-button { left: 0.5rem; }
+  .slider-button.next-button { right: 0.5rem; }
+  .slider-dots { bottom: 0.75rem; gap: 0.35rem; }
+  .dot { width: 8px; height: 8px; }
+
+  .recent-updates-section{
+    padding: 2rem 1rem;
+    width: 94%;
+    max-width: 400px;
+    display: flex;
     flex-direction: column;
-    border-radius: 0;
-    box-shadow: none;
-    margin: 0 0.5rem;
-    padding: 0;
-  }
-  .get-in-touch-form-wrapper,
-  .get-in-touch-image-wrapper {
-    min-width: 0;
-    width: 100%;
-    padding: 1.5rem 0.5rem;
     align-items: center;
-    justify-content: center;
+    gap: 1rem;
+    height: auto;
+    max-width: 400px;
+    margin: 1px auto 15 auto;
   }
-  .get-in-touch-form {
+
+  .course-explorer-section{
+    padding: 2rem 1rem;
+    width: 390px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    width: 100%;
-    max-width: 350px;
+    gap: 1rem;
   }
-  .get-in-touch-image {
-    max-width: 280px;
-    margin: 0 auto;
-  }
+  .hero-overlay { padding: 0 1rem; }
+
+  /* Scrolling containers */
+  .home-scrolling-container { width: 86%; max-width:400px; padding: 24px 0; gap: 16px; border-radius: 12px; }
+  .scrolling-row { gap: 0.75rem; }
+  .prompt-card { height: 38px; min-width: 220px; padding: 0 14px; }
+  .videos-section .scrolling-row-container { height: 200px; max-height: 260px; border-radius: 10px; max-width: 400px; width: 94%; }
+  .video-card, .testimonial-card { width: 260px; padding: 1rem; }
+  .youtube-thumbnail { height: 180px; max-height: 240px; }
+  .testimonial-image { width: 72px; height: 72px; border: 2px solid var(--secondary-color); }
+  .testimonial-text { max-width: 100%; padding: 0 6px; }
+  .testimonials-section { padding: 2rem 1rem; max-width: 400px; }
+  .testimonial-card { width: 100%; max-width: 320px; }
+  .testimonial-card:hover { transform: translateY(0); box-shadow: var(--card-shadow); }
+  .testimonial-name { font-size: 1.1rem; }
+  .testimonial-rank { font-size: 0.85rem; }
+  .testimonial-text { font-size: 0.9rem; }
+
+  /* Why Choose Us */
+  .why-choose-us-section { padding: 2rem 1rem; max-width: 400px;width: 92%; }
+  .why-choose-us-content-wrapper { grid-template-columns: 1fr; gap: 1.25rem; }
+  .why-choose-us-image img { height: 200px; }
+
+  /* FAQ */
+  .faq-container { padding: 32px 1rem; max-width: 400px; width: 92%; }
+  .faq-glass-card { padding: 20px; }
+  .faq-content { flex-direction: column; gap: 12px; }
+  .faq-column { min-width: auto; }
+  .faq-heading { font-size: 1.75rem; margin-bottom: 1rem; }
+
+  /* Social & WhatsApp buttons */
+  .social-bar { left: auto; right: 8px; top: auto; bottom: 100px; gap: 6px; }
+  .social-icon { width: 40px; height: 40px; font-size: 18px; }
+  .whatsapp-fixed-button, .whatsapp-button { right: 16px; bottom: 16px; width: 52px; height: 52px; font-size: 1.5rem; }
+
+  /* Social popup */
+  .social-popup-bar { left: 12px; bottom: 72px; font-size: 0.85rem; padding: 0.4rem 0.8rem; gap: 0.5rem; }
+  .popup-icon { font-size: 1rem; }
+
+  /* Download App */
+  .download-app-container { flex-direction: column; gap: 2rem; padding: 1.5rem; }
+  .download-app-heading { font-size: 1.3rem; max-width: 400px; width: 94%; }
+  .app-links img { width: 94%; max-width: 400px;}
+  .playstore { width: 160px; height: auto; }
+  .appstore { width: 150px; height: auto; margin: 8.5px auto 0rem auto; }
+
+  .download-app-image { text-align: center; align-items: center; }
+  .download-app-image img { max-width: 220px; height: 220px; }
+
+  /* Course Explorer */
+  .category-list { gap: 0.75rem; }
+  .course-details-card { flex: 0 0 85%; width: 85vw; height: auto; }
+  .course-card-image-container { height: 140px; }
+  .course-details-title { font-size: 1.1rem; }
+  .course-batch-details, .date-details { font-size: 0.9rem; }
+  .pricing-section { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+  .current-price { font-size: 1.25rem; }
+  .course-buttons { margin-top: 1rem; }
+  .btn-explore, .btn-buy-now { padding: 0.7rem 0.9rem; font-size: 0.95rem; }
+
+  /* Videos/testimonials scrollers spacing already tightened above */
+
+  /* Get In Touch */
+  .get-in-touch-container { flex-direction: column; border-radius: 16px; }
+  .get-in-touch-form-wrapper { padding: 2rem 1.25rem; }
+  .get-in-touch-image-wrapper { padding: 1.25rem 1rem; }
+  .get-in-touch-image { max-width: 280px; }
+  .get-in-touch-section { padding: 2rem 1rem; max-width: 400px; width: 92%;}
 }

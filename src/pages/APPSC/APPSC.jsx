@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import Navbar from "../../components/Navbar";
-import Footer from "../../components/Footer";
+import Navbar from "../../Components/Navbar";
+import Footer from "../../Components/Footer";
 import "./APPSC.css";
 import appsclogoSVG from "../../assets/appsclogo.svg?raw";
 import Chatbot from "../../Components/Chatbot";

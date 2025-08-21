@@ -427,10 +427,10 @@ const DownloadAppSection = () => (
           </li>
         </ul>
         <div className="app-links">
-          <a href="#" aria-label="Get it on Google Play">
+          <a href="#" aria-label="Get it on Google Play" className='playstore'>
             <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Get it on Google Play" />
           </a>
-          <a href="#" aria-label="Download on the App Store">
+          <a href="#" aria-label="Download on the App Store" className='appstore'>
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Download_on_the_App_Store_Badge.svg/2560px-Download_on_the_App_Store_Badge.svg.png" alt="Download on the App Store" />
           </a>
         </div>

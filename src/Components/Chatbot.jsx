@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
+const STORAGE_KEY = "chatbotDockPos";
+
 /**
  * Floating Chat-to-WhatsApp widget
  *
@@ -16,6 +18,8 @@ export default function Chatbot({ whatsAppNumber }) {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const panelRef = useRef(null);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const drag = useRef({ active: false, startX: 0, startY: 0, origX: 0, origY: 0, moved: false });
 
   const number =
     (whatsAppNumber && String(whatsAppNumber)) ||
@@ -41,6 +45,89 @@ export default function Chatbot({ whatsAppNumber }) {
     };
   }, [open]);
 
+  // Initialize dock position and clamp on resize/orientation
+  useEffect(() => {
+    const btnSize = 56; // matches styles.button
+    const margin = 16;
+    const tabbar = 64; // bottom tab bar height used in CSS var
+
+    const clamp = (x, y) => {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const maxX = Math.max(0, vw - btnSize - margin);
+      const maxY = Math.max(0, vh - btnSize - (tabbar + margin));
+      return { x: Math.min(Math.max(margin, x), maxX), y: Math.min(Math.max(margin, y), maxY) };
+    };
+
+    // Load from storage or default to bottom-right above tabbar
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      if (saved && typeof saved.x === "number" && typeof saved.y === "number") {
+        setPos(clamp(saved.x, saved.y));
+      } else {
+        const defX = window.innerWidth - btnSize - margin;
+        const defY = window.innerHeight - (tabbar + btnSize + margin);
+        setPos(clamp(defX, defY));
+      }
+    } catch {
+      const defX = window.innerWidth - btnSize - margin;
+      const defY = window.innerHeight - (tabbar + btnSize + margin);
+      setPos(clamp(defX, defY));
+    }
+
+    const onResize = () => setPos(p => clamp(p.x, p.y));
+    window.addEventListener("resize", onResize);
+    window.addEventListener("orientationchange", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("orientationchange", onResize);
+    };
+  }, []);
+
+  // Dragging: mouse & touch
+  useEffect(() => {
+    const onMove = (e) => {
+      if (!drag.current.active) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const dx = clientX - drag.current.startX;
+      const dy = clientY - drag.current.startY;
+      if (Math.abs(dx) + Math.abs(dy) > 12) drag.current.moved = true;
+      const next = { x: drag.current.origX + dx, y: drag.current.origY + dy };
+      // simple clamp within viewport
+      const vw = window.innerWidth, vh = window.innerHeight, btn = 56, margin = 8, tabbar = 64;
+      const maxX = Math.max(0, vw - btn - margin);
+      const maxY = Math.max(0, vh - btn - (tabbar + margin));
+      setPos({ x: Math.min(Math.max(margin, next.x), maxX), y: Math.min(Math.max(margin, next.y), maxY) });
+    };
+    const onEnd = () => {
+      if (!drag.current.active) return;
+      drag.current.active = false;
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(pos)); } catch (err) { void err; }
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("touchmove", onMove);
+      window.removeEventListener("mouseup", onEnd);
+      window.removeEventListener("touchend", onEnd);
+    };
+    const start = (e) => {
+      const t = e.touches ? e.touches[0] : e;
+      drag.current.active = true;
+      drag.current.moved = false;
+      drag.current.startX = t.clientX;
+      drag.current.startY = t.clientY;
+      drag.current.origX = pos.x;
+      drag.current.origY = pos.y;
+      window.addEventListener("mousemove", onMove, { passive: false });
+      window.addEventListener("touchmove", onMove, { passive: false });
+      window.addEventListener("mouseup", onEnd, { passive: true });
+      window.addEventListener("touchend", onEnd, { passive: true });
+    };
+    // Expose starters
+    drag.current.begin = start;
+    drag.current.finish = onEnd;
+    drag.current.move = onMove;
+  }, [pos]);
+
   function handleSend(e) {
     e.preventDefault();
     const text = message.trim();
@@ -57,14 +144,16 @@ export default function Chatbot({ whatsAppNumber }) {
   const styles = {
     container: {
       position: "fixed",
-      right: 16,
-      bottom: 16,
-      zIndex: 1000,
+      left: pos.x,
+      top: pos.y,
+      zIndex: 5000,
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-end",
       gap: 8,
-    },
+      touchAction: "none",
+      userSelect: "none",
+   },
     button: {
       width: 56,
       height: 56,
@@ -81,6 +170,7 @@ export default function Chatbot({ whatsAppNumber }) {
     },
     pop: (open) => ({
       position: "absolute",
+      zIndex: 5001,
       right: 0,
       bottom: 72,
       width: 300,
@@ -199,8 +289,17 @@ export default function Chatbot({ whatsAppNumber }) {
       <button
         type="button"
         aria-label={open ? "Close chat" : "Open chat"}
-        onClick={() => setOpen((v) => !v)}
-        style={styles.button}
+        onMouseDown={(e) => { drag.current.begin?.(e); }}
+        onTouchStart={(e) => { drag.current.begin?.(e); }}
+        onMouseUp={() => {
+          if (!drag.current.moved) setOpen(v => !v);
+          drag.current.moved = false;
+        }}
+        onTouchEnd={() => {
+          if (!drag.current.moved) setOpen(v => !v);
+          drag.current.moved = false;
+        }}
+        style={{ ...styles.button, cursor: drag.current.active ? "grabbing" : "grab" }}
       >
         {/* Chat bubble icon */}
         <svg width="26" height="26" viewBox="1 0 30 24" xmlns="http://www.w3.org/2000/svg" aria-hidden>
